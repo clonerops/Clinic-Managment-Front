@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Config Font */
+@font-face {
+    font-family: "Peyda_Bold";
+    src: url("../fonts/PeydaFaNum-Bold.ttf");
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Peyda_Medium";
+    src: url("../fonts/PeydaFaNum-Medium.ttf");
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Peyda_Reqular";
+    src: url("../fonts/PeydaFaNum-Regular.ttf");
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Peyda_Thin";
+    src: url("../fonts/PeydaFaNum-Thin.ttf");
+    font-style: normal;
+}
+
+@layer components {
+    .container {
+        width: 100%;
+        margin-right: auto;
+        margin-left: auto;
+        padding-left: 1.6rem;
+        padding-right: 1.6rem;
+    }
+}
+
+body,
+html {
+    direction: rtl;
+}
+
+.ant-tabs-tab {
+    margin: 0 20px 0 36px;
+}
