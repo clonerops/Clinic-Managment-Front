@@ -57,6 +57,7 @@ const PatientEditForm: FC<IProps> = ({ id, onClose, fetchPatients }) => {
     const onSubmit = (values: IPatient) => {
         const formData = {
             ...values,
+            id: id,
             gender: values.gender === 2 ? true : false,
             maritalStatus: values.maritalStatus === 2 ? true : false
         }
@@ -73,8 +74,10 @@ const PatientEditForm: FC<IProps> = ({ id, onClose, fetchPatients }) => {
         })
     }
 
-    
-    {fetchTools.isPending && <Backdrop loading={fetchTools.isPending} />}
+
+    if (fetchTools.isPending) {
+        return <Backdrop loading={fetchTools.isPending} />
+    }
     return (
         <>
             {updateTools.isPending && <Backdrop loading={updateTools.isPending} />}

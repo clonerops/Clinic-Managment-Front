@@ -4,6 +4,8 @@ import { Navigate, Route, RouteProps, Routes } from "react-router-dom";
 import Dashboard from "../modules/Dashboard";
 import PatientForm from "../modules/patient/PatientForm";
 import PatientList from "../modules/patient/PatientList";
+import DocumentList from "../modules/document/DocumentList";
+import DoctorList from "../modules/doctor/DoctorList";
 
 const Layout = React.lazy(() => import("../modules/layout/Layout"));
 
@@ -12,6 +14,8 @@ export const routes: RouteProps[] = [
     { path: "dashboard", element: <Dashboard /> },
     { path: "submit-patient", element: <PatientForm /> },
     { path: "patients", element: <PatientList /> },
+    { path: "documents", element: <DocumentList /> },
+    { path: "doctors", element: <DoctorList /> },
     // { path: "/users", element: <Users /> },
     // { path: "/permissions", element: <Permissions /> },
     // { path: "/groups", element: <Groups /> },

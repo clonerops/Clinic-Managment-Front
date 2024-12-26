@@ -1,5 +1,5 @@
-import { useDeletePatient } from "./core/_hooks";
-import { IPatient } from "./core/_models";
+import { useDeleteDoctor } from "./core/_hooks";
+import { IDoctor } from "./core/_models";
 import { FC } from "react";
 import SimpleButton from "../../_cloner/components/buttons/SimpleButton";
 import { toastify } from "../../_cloner/utils/toast";
@@ -8,13 +8,14 @@ import { UseMutationResult } from "@tanstack/react-query";
 
 
 interface IProps {
-    item: IPatient | undefined;
+    item: IDoctor | undefined;
     onClose: () => void
-    fetchPatients: UseMutationResult<any, Error, void, unknown>
+    fetchDoctors: UseMutationResult<any, Error, void, unknown>
 }
 
-const PatientDeleteForm: FC<IProps> = ({ item, onClose, fetchPatients }) => {
-    const deleteTools = useDeletePatient();
+const DoctorDeleteForm: FC<IProps> = ({ item, onClose, fetchDoctors }) => {
+    console.log(item)
+    const deleteTools = useDeleteDoctor();
 
     const onSubmit = () => {
         deleteTools.mutate(item?.id || 0, {
@@ -26,7 +27,7 @@ const PatientDeleteForm: FC<IProps> = ({ item, onClose, fetchPatients }) => {
                     toastify("error", response.message);
                 }
                 onClose()
-                fetchPatients.mutate()
+                fetchDoctors.mutate()
             },
         });
     };
@@ -54,4 +55,4 @@ const PatientDeleteForm: FC<IProps> = ({ item, onClose, fetchPatients }) => {
     );
 };
 
-export default PatientDeleteForm;
+export default DoctorDeleteForm;

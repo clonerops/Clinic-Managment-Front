@@ -1,31 +1,34 @@
-import { TableColumnsType, Tag } from "antd";
+import { TableColumnsType } from "antd";
 import GridEditButton from "../../_cloner/components/buttons/GridEditButton";
 import CardWidget from "../../_cloner/components/shared/CardWidget"
 import Typography from "../../_cloner/components/typography/Typography"
 import SimpleTable from "../../_cloner/components/tables/SimpleTable";
-import { useFetchPatiens } from "./core/_hooks";
+import { useFetchDoctors } from "./core/_hooks";
 import { useEffect, useState } from "react";
 import Backdrop from "../../_cloner/components/shared/Backdrop";
 import GridDeleteButton from "../../_cloner/components/buttons/GridDeleteButton";
 import WidthModal from "../../_cloner/components/shared/WidthModal";
-import { IPatient } from "./core/_models";
-import PatientEditForm from "./PatientEditForm";
-import PatientDeleteForm from "./PatientDeleteForm";
+import { IDoctor } from "./core/_models";
+import DoctorEditForm from "./DoctorEditForm";
+import DoctorDeleteForm from "./DoctorDeleteForm";
+import DoctorForm from "./DoctorForm";
+import SimpleButton from "../../_cloner/components/buttons/SimpleButton";
 
-const PatientList = () => {
+const DoctorList = () => {
+    const [openCreateModal, setOpenCreateModal] = useState<boolean>(false)
     const [openEditModal, setOpenEditModal] = useState<boolean>(false)
     const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
-    const [patientItem, setPatientItem] = useState<IPatient>()
-    const [patientItemDelete, setPatientItemDelete] = useState<IPatient>()
+    const [DoctorItem, setDoctorItem] = useState<IDoctor>()
+    const [DoctorItemDelete, setDoctorItemDelete] = useState<IDoctor>()
 
-    const fetchTools = useFetchPatiens()
+    const fetchTools = useFetchDoctors()
 
-    const handleSetPatientItem = (item: IPatient) => {
-        setPatientItem(item)
+    const handleSetDoctorItem = (item: IDoctor) => {
+        setDoctorItem(item)
         setOpenEditModal(true)
     }
-    const handleSetPatientItemForDelete = (item: IPatient) => {
-        setPatientItemDelete(item)
+    const handleSetDoctorItemForDelete = (item: IDoctor) => {
+        setDoctorItemDelete(item)
         setOpenDeleteModal(true)
     }
 
@@ -49,23 +52,16 @@ const PatientList = () => {
             title: "کدملی",
             dataIndex: "nationalCode",
             key: "nationalCode",
-            render: (item) => {
-                return <Tag color="blue">
-                    {item}
-                </Tag>
-            },
-
         },
         {
             title: "موبایل",
             dataIndex: "mobile",
             key: "mobile",
-            render: (item) => {
-                return <Tag color="pink">
-                    {item}
-                </Tag>
-            },
-
+        },
+        {
+            title: "توضیحات",
+            dataIndex: "description",
+            key: "description",
         },
         {
             title: "عملیات",
@@ -74,8 +70,8 @@ const PatientList = () => {
             width: 200,
             render: (item) => (
                 <div className="flex items-center gap-x-4">
-                    <GridEditButton onClick={() => handleSetPatientItem(item)} />
-                    <GridDeleteButton onClick={() => handleSetPatientItemForDelete(item)} />
+                    <GridEditButton onClick={() => handleSetDoctorItem(item)} />
+                    <GridDeleteButton onClick={() => handleSetDoctorItemForDelete(item)} />
                 </div>
             ),
         },
@@ -85,9 +81,12 @@ const PatientList = () => {
         <>
             {fetchTools.isPending && <Backdrop loading={fetchTools.isPending} />}
             <CardWidget>
+                <div className="flex flex-end justify-end">
+                    <SimpleButton text="ایجاد پزشک جدید"  onSubmit={() => setOpenCreateModal(true)} />
+                </div>
                 <Typography
                     type="h3"
-                    text="لیست بیماران"
+                    text="لیست پزشک"
                     typographyTextClassName="text-secondary"
                 />
                 <div className="mt-16">
@@ -95,27 +94,35 @@ const PatientList = () => {
                 </div>
 
             </CardWidget>
-            {/* Edit Patient */}
+            {/* Edit Doctor */}
+            <WidthModal
+                isOpen={openCreateModal}
+                onCancel={() => setOpenCreateModal(false)}
+                cancelText="انصراف"
+                title=""
+            >
+                <DoctorForm fetchDoctors={fetchTools} onClose={() => setOpenCreateModal(false)} />
+            </WidthModal>
             <WidthModal
                 isOpen={openEditModal}
                 onCancel={() => setOpenEditModal(false)}
                 cancelText="انصراف"
                 title=""
             >
-                <PatientEditForm fetchPatients={fetchTools} onClose={() => setOpenEditModal(false)} id={patientItem?.id || 0} />
+                <DoctorEditForm fetchDoctors={fetchTools} onClose={() => setOpenEditModal(false)} id={DoctorItem?.id || 0} />
             </WidthModal>
-            {/* Delete Patient */}
+            {/* Delete Doctor */}
             <WidthModal
                 isOpen={openDeleteModal}
                 onCancel={() => setOpenDeleteModal(false)}
                 cancelText="انصراف"
-                title="حذف بیمار"
+                title="حذف پزشک"
             >
-                <PatientDeleteForm fetchPatients={fetchTools} onClose={() => setOpenDeleteModal(false)} item={patientItemDelete} />
+                <DoctorDeleteForm fetchDoctors={fetchTools} onClose={() => setOpenDeleteModal(false)} item={DoctorItemDelete} />
             </WidthModal>
 
         </>
     )
 }
 
-export default PatientList
+export default DoctorList

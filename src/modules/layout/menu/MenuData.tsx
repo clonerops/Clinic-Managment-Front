@@ -4,12 +4,6 @@ export const MenuData = [
         url: "/dashboard",
         icon: "dashboard-svgrepo-com",
     },
-    // {
-    //     title: "ثبت اطلاعات بیمار",
-    //     url: "/submit-patient",
-    //     icon: "dashboard-svgrepo-com",
-    // },
-
     {
         title: "مدیریت بیماران",
         url: "/patient-managment",
@@ -26,6 +20,16 @@ export const MenuData = [
 
             },
         ]
-    }
+    },
+    {
+        title: "مدیریت نوع پرونده",
+        url: "/documents",
+        icon: "dashboard-svgrepo-com",
+    },
+    {
+        title: "مدیریت پزشکان",
+        url: "/doctors",
+        icon: "dashboard-svgrepo-com",
+    },
 
 ]

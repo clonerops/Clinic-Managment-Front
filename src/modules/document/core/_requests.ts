@@ -1,10 +1,10 @@
 import { http } from "../../../_cloner/utils/axiosConfig";
-import { IPatient } from "./_models";
+import { IDocument } from "./_models";
 
-const CreateNewPatient = async (formData: IPatient) => {
+const CreateNewDocument = async (formData: IDocument) => {
     try {
         
-        const { data } = await http.post("Patient", JSON.stringify(formData))
+        const { data } = await http.post("Document", JSON.stringify(formData))
         return data
 
     } catch (error: any) {
@@ -13,10 +13,10 @@ const CreateNewPatient = async (formData: IPatient) => {
 }
 
 
-const FetchPatiens = async () => {
+const FetchDocuments = async () => {
     try {
         
-        const { data } = await http.get("Patient")
+        const { data } = await http.get("Document")
         return data
 
     } catch (error: any) {
@@ -25,10 +25,10 @@ const FetchPatiens = async () => {
 
 }
 
-const FetchPatient = async (id: number) => {
+const FetchDocument = async (id: number) => {
     try {
         
-        const { data } = await http.get(`Patient/${id}`)
+        const { data } = await http.get(`Document/${id}`)
         return data
 
     } catch (error: any) {
@@ -36,10 +36,10 @@ const FetchPatient = async (id: number) => {
     }
 }
 
-const UpdatePatient = async (formData: IPatient) => {
+const UpdateDocument = async (formData: IDocument) => {
     try {
         
-        const { data } = await http.put(`Patient/${formData.id}`, JSON.stringify(formData))
+        const { data } = await http.put(`Document/${formData.id}`, JSON.stringify(formData))
         return data
 
     } catch (error: any) {
@@ -47,10 +47,10 @@ const UpdatePatient = async (formData: IPatient) => {
     }
 }
 
-const DeletePatient = async (id: number) => {
+const DeleteDocument = async (id: number) => {
     try {
         
-        const { data } = await http.delete(`Patient/${id}`)
+        const { data } = await http.delete(`Document/${id}`)
         return data
 
     } catch (error: any) {
@@ -60,9 +60,9 @@ const DeletePatient = async (id: number) => {
 
 
 export {
-    CreateNewPatient,
-    FetchPatiens,
-    FetchPatient,
-    UpdatePatient,
-    DeletePatient
+    CreateNewDocument,
+    FetchDocuments,
+    FetchDocument,
+    UpdateDocument,
+    DeleteDocument
 }

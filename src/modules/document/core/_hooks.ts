@@ -1,29 +1,29 @@
 import { useMutation } from "@tanstack/react-query";
 import * as api from './_requests'
-import { IPatient } from "./_models";
+import { IDocument } from "./_models";
 
-const useCreateNewPatient = () => useMutation({
-    mutationFn: (formData: IPatient) => api.CreateNewPatient(formData),
+const useCreateNewDocument = () => useMutation({
+    mutationFn: (formData: IDocument) => api.CreateNewDocument(formData),
 })
-const useFetchPatiens = () => useMutation({
-    mutationFn: () => api.FetchPatiens(),
+const useFetchDocuments = () => useMutation({
+    mutationFn: () => api.FetchDocuments(),
 })
-const useFetchPatient = () => useMutation({
-    mutationFn: (id: number) => api.FetchPatient(id),
+const useFetchDocument = () => useMutation({
+    mutationFn: (id: number) => api.FetchDocument(id),
 })
-const useUpdatePatient = () => useMutation({
-    mutationFn: (formData: IPatient) => api.UpdatePatient(formData),
+const useUpdateDocument = () => useMutation({
+    mutationFn: (formData: IDocument) => api.UpdateDocument(formData),
 })
-const useDeletePatient = () => useMutation({
-    mutationFn: (id: number) => api.DeletePatient(id),
+const useDeleteDocument = () => useMutation({
+    mutationFn: (id: number) => api.DeleteDocument(id),
 })
 
 
 
 export {
-    useCreateNewPatient,
-    useFetchPatiens,
-    useFetchPatient,
-    useUpdatePatient,
-    useDeletePatient
+    useCreateNewDocument,
+    useFetchDocuments,
+    useFetchDocument,
+    useUpdateDocument,
+    useDeleteDocument
 }
