@@ -22,8 +22,8 @@ export const MenuData = [
         ]
     },
     {
-        title: "مدیریت نوع پرونده",
-        url: "/documents",
+        title: "مدیریت پرونده ها",
+        url: "/patient-files",
         icon: "dashboard-svgrepo-com",
     },
     {
@@ -31,5 +31,14 @@ export const MenuData = [
         url: "/doctors",
         icon: "dashboard-svgrepo-com",
     },
-
+    {
+        title: "مدیریت مراجعات",
+        url: "/referrals",
+        icon: "dashboard-svgrepo-com",
+    },
+    {
+        title: "مدیریت نوع پرونده",
+        url: "/documents",
+        icon: "dashboard-svgrepo-com",
+    },
 ]

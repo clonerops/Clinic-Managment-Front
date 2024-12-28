@@ -12,8 +12,10 @@ import { IPatient } from "./core/_models";
 import PatientEditForm from "./PatientEditForm";
 import PatientDeleteForm from "./PatientDeleteForm";
 import GridSimpleButton from "../../_cloner/components/buttons/GridSimpleButton";
+import PatientFileForm from "../patientFile/PatientFileForm";
 
 const PatientList = () => {
+    const [openPatientFileModal, setOpenPatientFileModal] = useState<boolean>(false)
     const [openEditModal, setOpenEditModal] = useState<boolean>(false)
     const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
     const [patientItem, setPatientItem] = useState<IPatient>()
@@ -28,6 +30,10 @@ const PatientList = () => {
     const handleSetPatientItemForDelete = (item: IPatient) => {
         setPatientItemDelete(item)
         setOpenDeleteModal(true)
+    }
+    const handleSetPatientFileItem = (item: IPatient) => {
+        setPatientItem(item)
+        setOpenPatientFileModal(true)
     }
 
     useEffect(() => {
@@ -75,7 +81,7 @@ const PatientList = () => {
             width: 200,
             render: (item) => (
                 <div className="flex items-center gap-x-4">
-                    <GridSimpleButton icon="marketing-svgrepo-com" onClick={() => {}} title="ثبت پرونده جدید" btnClassName="bg-green hobver:!bg-greenLight" />
+                    <GridSimpleButton icon="marketing-svgrepo-com" onClick={() => handleSetPatientFileItem(item)} title="ثبت پرونده جدید" btnClassName="bg-green hobver:!bg-greenLight" />
                     <GridEditButton onClick={() => handleSetPatientItem(item)} />
                     <GridDeleteButton onClick={() => handleSetPatientItemForDelete(item)} />
                 </div>
@@ -97,6 +103,15 @@ const PatientList = () => {
                 </div>
 
             </CardWidget>
+            {/* Edit Patient */}
+            <WidthModal
+                isOpen={openPatientFileModal}
+                onCancel={() => setOpenPatientFileModal(false)}
+                cancelText="انصراف"
+                title=""
+            >
+                <PatientFileForm fetchPatients={fetchTools} onClose={() => setOpenEditModal(false)} patient={patientItem || {}} />
+            </WidthModal>
             {/* Edit Patient */}
             <WidthModal
                 isOpen={openEditModal}

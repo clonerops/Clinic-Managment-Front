@@ -1,5 +1,5 @@
-import { useDeletePatient } from "./core/_hooks";
-import { IPatient } from "./core/_models";
+import { useDeleteReferral } from "./core/_hooks";
+import { IReferral } from "./core/_models";
 import { FC } from "react";
 import SimpleButton from "../../_cloner/components/buttons/SimpleButton";
 import { toastify } from "../../_cloner/utils/toast";
@@ -8,13 +8,13 @@ import { UseMutationResult } from "@tanstack/react-query";
 
 
 interface IProps {
-    item: IPatient | undefined;
+    item: IReferral | undefined;
     onClose: () => void
-    fetchPatients: UseMutationResult<any, Error, void, unknown>
+    fetchReferrals: UseMutationResult<any, Error, void, unknown>
 }
 
-const PatientDeleteForm: FC<IProps> = ({ item, onClose, fetchPatients }) => {
-    const deleteTools = useDeletePatient();
+const ReferralDeleteForm: FC<IProps> = ({ item, onClose, fetchReferrals }) => {
+    const deleteTools = useDeleteReferral();
 
     const onSubmit = () => {
         deleteTools.mutate(item?.id || 0, {
@@ -26,7 +26,7 @@ const PatientDeleteForm: FC<IProps> = ({ item, onClose, fetchPatients }) => {
                     toastify("error", response.message);
                 }
                 onClose()
-                fetchPatients.mutate()
+                fetchReferrals.mutate()
             },
         });
     };
@@ -36,7 +36,7 @@ const PatientDeleteForm: FC<IProps> = ({ item, onClose, fetchPatients }) => {
             {deleteTools.isPending && <div>درحال پردازش...</div>}
             <div className="flex flex-col justify-center items-center">
                 <Typography
-                    text={`آیا از حذف مجوز ${item?.firstName + " " + item?.lastName || ""} مطمئن هستید؟`}
+                    text={`آیا از حذف مراجعه مطمئن هستید؟`}
                     type="h5"
                     typographyTextClassName="!text-secondary"
                 />
@@ -54,4 +54,4 @@ const PatientDeleteForm: FC<IProps> = ({ item, onClose, fetchPatients }) => {
     );
 };
 
-export default PatientDeleteForm;
+export default ReferralDeleteForm;

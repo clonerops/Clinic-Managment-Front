@@ -2,37 +2,41 @@ import { Formik } from "formik"
 import SimpleButton from "../../_cloner/components/buttons/SimpleButton"
 import FormikDescription from "../../_cloner/components/inputs/FormikDescription"
 import Typography from "../../_cloner/components/typography/Typography"
-import { useFetchPatientFile, useUpdatePatientFile } from "./core/_hooks"
-import { IPatientFile } from "./core/_models"
+import { useFetchReferral, useUpdateReferral } from "./core/_hooks"
+import { IReferral } from "./core/_models"
 import { toastify } from "../../_cloner/utils/toast"
 import Backdrop from "../../_cloner/components/shared/Backdrop"
 import CardWidget from "../../_cloner/components/shared/CardWidget"
 import { FC, useEffect } from "react"
 import { UseMutationResult } from "@tanstack/react-query"
+import FormikInput from "../../_cloner/components/inputs/FormikInput"
+import FormikDatepicker from "../../_cloner/components/inputs/FormikDatepicker"
 
-const initialValues: IPatientFile = {
-    fileCode: "",
-    patientId: null,
-    documentId: null,
-    doctorId: null,
-    description: "",
+const initialValues: IReferral = {
+    referralReason: "",
+    referralDescription: "",
+    referralDate: "",
+    patientFileId: 0,
 }
 
 interface IProps {
     id?: number
     onClose: () => void
-    fetchPatientFiles: UseMutationResult<any, Error, void, unknown>
+    fetchReferrals: UseMutationResult<any, Error, void, unknown>
 }
 
-const PatientFileEditForm: FC<IProps> = ({ id, onClose, fetchPatientFiles }) => {
-    const updateTools = useUpdatePatientFile()
-    const fetchTools = useFetchPatientFile()
+const ReferralEditForm: FC<IProps> = ({ id, onClose, fetchReferrals }) => {
+    const updateTools = useUpdateReferral()
+    const fetchTools = useFetchReferral()
 
     useEffect(() => {
         fetchTools.mutate(id || 0)
     }, [id])
 
-    const onSubmit = (values: IPatientFile) => {
+    console.log(fetchReferrals)
+    console.log(fetchTools.data)
+
+    const onSubmit = (values: IReferral) => {
         const formData = {
             ...values,
             id: id,
@@ -44,7 +48,7 @@ const PatientFileEditForm: FC<IProps> = ({ id, onClose, fetchPatientFiles }) => 
                 } else {
                     toastify("error", response.message)
                 }
-                fetchPatientFiles.mutate()
+                fetchReferrals.mutate()
                 onClose()
             }
         })
@@ -60,18 +64,18 @@ const PatientFileEditForm: FC<IProps> = ({ id, onClose, fetchPatientFiles }) => 
             <CardWidget>
                 <Typography
                     type="h3"
-                    text="ویرایش بیمار"
+                    text="ویرایش مراجعه بیمار"
                     typographyTextClassName="text-secondary"
                 />
                 <Formik enableReinitialize initialValues={{
                     ...initialValues,
                     ...fetchTools.data,
-                    gender: fetchTools.data?.gender === true ? 2 : 1,
-                    maritalStatus: fetchTools.data?.maritalStatus === true ? 2 : 1,
                 }} onSubmit={onSubmit}>
                     {({ handleSubmit }) => <form className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-16" onSubmit={handleSubmit}>
+                        <FormikInput placeholder="" type="text" hasLabel={true} name="referralReason" label="علت مراجعه" />
+                        <FormikDatepicker placeholder="" hasLabel={true} name="referralDate" label="تاریخ مراجعه" />
                         <div className="lg:col-span-2">
-                            <FormikDescription placeholder="توضیحات" type="text" hasLabel={true} name="description" label="توضیحات" />
+                            <FormikDescription placeholder="" type="text" hasLabel={true} name="referralDescription" label="توضیحات پزشک" />
                         </div>
                         <div className="flex justify-end items-end lg:col-span-3">
                             <SimpleButton onSubmit={() => handleSubmit()} text="ویرایش بیمار" btnTextClassName="!py-4" />
@@ -83,4 +87,4 @@ const PatientFileEditForm: FC<IProps> = ({ id, onClose, fetchPatientFiles }) => 
     )
 }
 
-export default PatientFileEditForm
+export default ReferralEditForm

@@ -1,46 +1,42 @@
 import { Formik } from "formik"
 import SimpleButton from "../../_cloner/components/buttons/SimpleButton"
 import FormikDescription from "../../_cloner/components/inputs/FormikDescription"
-import FormikSelect from "../../_cloner/components/selects/FormikSelect"
 import Typography from "../../_cloner/components/typography/Typography"
-import { useCreateNewPatientFile } from "./core/_hooks"
-import { IPatientFile } from "./core/_models"
+import { useCreateNewReferral } from "./core/_hooks"
+import { IReferral } from "./core/_models"
 import { toastify } from "../../_cloner/utils/toast"
 import Backdrop from "../../_cloner/components/shared/Backdrop"
 import CardWidget from "../../_cloner/components/shared/CardWidget"
-import FormikDocuments from "../../_cloner/components/inputs/FormikDocuments"
 import { UseMutationResult } from "@tanstack/react-query"
 import { FC } from "react"
-import { IPatient } from "../patient/core/_models"
-import FormikDoctors from "../../_cloner/components/inputs/FormikDoctors"
 import FormikDatepicker from "../../_cloner/components/inputs/FormikDatepicker"
 import moment from "moment-jalaali"
+import { IPatientFile } from "../patientFile/core/_models"
+import FormikInput from "../../_cloner/components/inputs/FormikInput"
 
-const initialValues: IPatientFile = {
-    fileCode: "",
-    patientId: null,
-    documentId: null,
-    doctorId: null,
-    description: "",
+const initialValues: IReferral = {
+    referralReason: "",
+    referralDescription: "",
+    referralDate: "",
+    patientFileId: 0,
 }
 
 
 interface IProps {
-    fetchPatients: UseMutationResult<any, Error, void, unknown>
+    fetchPatientFiles: UseMutationResult<any, Error, void, unknown>
     onClose: () => void
-    patient: IPatient
+    patientFile: IPatientFile
 }
 
 
-const PatientFileForm: FC<IProps> = ({ fetchPatients, onClose, patient }) => {
-    const createTools = useCreateNewPatientFile()
+const ReferralForm: FC<IProps> = ({ fetchPatientFiles, onClose, patientFile }) => {
+    const createTools = useCreateNewReferral()
 
-    const onSubmit = (values: IPatientFile) => {
-        console.log(values)
+    const onSubmit = (values: IReferral) => {
         const formData = {
             ...values,
-            patientId: patient.id,
-            
+            patientFileId: patientFile.id,
+
         }
         createTools.mutate(formData, {
             onSuccess: (response) => {
@@ -49,7 +45,7 @@ const PatientFileForm: FC<IProps> = ({ fetchPatients, onClose, patient }) => {
                 } else {
                     toastify("error", response.message)
                 }
-                fetchPatients.mutate()
+                fetchPatientFiles.mutate()
                 onClose()
             }
         })
@@ -61,23 +57,22 @@ const PatientFileForm: FC<IProps> = ({ fetchPatients, onClose, patient }) => {
             <CardWidget>
                 <Typography
                     type="h3"
-                    text={`ثبت پرونده برای بیمار ${patient.firstName} ${patient.lastName}`}
+                    text={`ثبت مراجعه برای بیمار ${patientFile.patientName}`}
                     typographyTextClassName="text-secondary"
                 />
 
                 <Formik initialValues={{
                     ...initialValues,
-                    registerDate: moment(new Date(Date.now())).format("jYYYY/jMM/jDD")
+                    referralDate: moment(new Date(Date.now())).format("jYYYY/jMM/jDD")
                 }} onSubmit={onSubmit}>
                     {({ handleSubmit }) => <form className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-16" onSubmit={handleSubmit}>
-                        <FormikDocuments isRequired hasLabel name="documentId" label="نوع پرونده" />
-                        <FormikDoctors isRequired hasLabel name="doctorId" label="پزشک معالج" />
-                        <FormikDatepicker placeholder="" hasLabel name="registerDate" label="تاریخ ثبت" />
-                        <div className="lg:col-span-3">
-                            <FormikDescription placeholder="" type="text" hasLabel={true} name="description" label="توضیحات" />
+                        <FormikInput placeholder="" type="text" hasLabel={true} name="referralReason" label="علت مراجعه" />
+                        <FormikDatepicker placeholder="" hasLabel={true} name="referralDate" label="تاریخ مراجعه" />
+                        <div className="lg:col-span-2">
+                            <FormikDescription placeholder="" type="text" hasLabel={true} name="referralDescription" label="توضیحات پزشک" />
                         </div>
                         <div className="flex justify-end items-end lg:col-span-3">
-                            <SimpleButton onSubmit={() => handleSubmit()} text="ثبت پرونده برای بیمار" btnTextClassName="!py-4" />
+                            <SimpleButton onSubmit={() => handleSubmit()} text="ثبت مراجعه برای بیمار" btnTextClassName="!py-4" />
                         </div>
                     </form>}
                 </Formik>
@@ -86,4 +81,4 @@ const PatientFileForm: FC<IProps> = ({ fetchPatients, onClose, patient }) => {
     )
 }
 
-export default PatientFileForm
+export default ReferralForm

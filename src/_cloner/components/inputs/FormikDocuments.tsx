@@ -1,10 +1,18 @@
-import React from 'react'
-import { useFetchPatientFiles } from '../../../modules/patientFile/core/_hooks'
+import { useEffect } from 'react'
+import { useFetchDocuments } from '../../../modules/document/core/_hooks'
+import FormikSelect from '../selects/FormikSelect'
+import { dropdownDocuments } from '../../utils/dropdownsConvert'
 
-const FormikDocuments = () => {
-    const fetchTools = useFetchPatientFiles()
+const FormikDocuments = (props: any) => {
+  const fetchTools = useFetchDocuments()
+  useEffect(() => {
+    fetchTools.mutate()
+  }, [])
   return (
-    // <FormikSelect isRequired options={marridStatusOptions} hasLabel={true} name="maritalStatus" label="وضعیت تاهل" />
+    <FormikSelect
+      options={dropdownDocuments(fetchTools.data) || []}
+      {...props}
+    />
   )
 }
 
