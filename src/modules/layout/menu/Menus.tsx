@@ -16,11 +16,11 @@ const Menus = () => {
     //   }, []);
     
     return (
-        <div>
+        <div className="py-8">
             {MenuData?.map((item: IMenu, index: number) => (
                 <ul
                     key={index}
-                    className={`flex flex-col my-4 space-y-2 transition-all !duration-700 overflow-hidden whitespace-nowrap `}
+                    className={`flex flex-col my-4 space-y-2 transition-all !duration-700 overflow-hidden whitespace-nowrap`}
                 >
                     <MenuItem
                         key={index}

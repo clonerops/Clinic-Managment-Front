@@ -15,29 +15,23 @@ const Layout = () => {
             <div className="hidden lg:flex w-full h-screen bg-gray">
                 <header
                     className={`fixed top-0 right-0 left-0 z-10 px-8 py-4 bg-grayLight1 transition-all duration-700 ${sideOpen
-                            ? "right-[280px] w-[calc(100%-280px)]"
-                            : "right-[80px] w-[calc(100%-80px)]"
+                        ? "right-[280px] w-[calc(100%-280px)]"
+                        : "right-[80px] w-[calc(100%-80px)]"
                         }`}
                 >
                     <Header toggleSidebar={toogleSideOpen} />
                 </header>
 
-                <aside
-                    className={`fixed right-0 top-0 h-full bg-primary transition-all duration-700 ${sideOpen ? "w-[280px] p-8" : "w-[80px] py-8"
-                        }`}
-                >
+                <aside className={`fixed bottom-8 right-0 top-0 h-full bg-primary transition-all duration-700 ${sideOpen ? "w-[280px]" : "w-[80px] py-8"}`}>
                     <AsideHeader />
-                    {/* <div className="mt-8">
-                        <AsideAction />
-                    </div> */}
-                    <div className="mt-8">
+                    <div className="overflow-y-auto px-4" style={{ maxHeight: "calc(100% - 80px)" }}>
                         <Menus />
                     </div>
                 </aside>
                 <main
                     className={`absolute left-0 transition-all duration-700 top-20 ${sideOpen
-                            ? "right-[280px] w-[calc(100%-280px)]"
-                            : "right-[80px] w-[calc(100%-80px)]"
+                        ? "right-[280px] w-[calc(100%-280px)]"
+                        : "right-[80px] w-[calc(100%-80px)]"
                         }`}
                 >
                     <section className="px-8 py-4">
@@ -50,8 +44,8 @@ const Layout = () => {
             <div className="lg:hidden w-full h-screen bg-grayLight">
                 <header
                     className={`fixed top-0 right-0 left-0 z-10 px-8 py-4 bg-grayLight transition-all duration-700 ${sideOpen
-                            ? "mr-[220px] w-[calc(100%-220px)]"
-                            : "mr-0 w-[100%]"
+                        ? "mr-[220px] w-[calc(100%-220px)]"
+                        : "mr-0 w-[100%]"
                         }`}
                 >
                     <Header

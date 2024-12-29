@@ -1,7 +1,7 @@
 import { toAbsoulteUrl } from "../../../_cloner/utils/absoluteUrl";
 import Typography from "../../../_cloner/components/typography/Typography";
 import SubMenuItem from "./SubMenuItem";
-import { FC, useContext, useState } from "react";
+import { FC, useContext, useState, useEffect } from "react";
 import { SidebarContext } from "../../../_cloner/context/sidebarContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IMenu } from "./_model";
@@ -14,17 +14,28 @@ interface IProps {
     subMenus:
         | {
               title: string;
+              url: string;
           }[]
         | undefined;
 }
 
 const MenuItem: FC<IProps> = ({ key, title, url, icon, subMenus = [] }) => {
     const location = useLocation();
-    const isActive = location.pathname === url;
     const navigate = useNavigate();
 
     const { sideOpen } = useContext(SidebarContext);
     const [subMenuOpen, setSubMenuOpen] = useState<boolean>(false);
+    const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
+
+    useEffect(() => {
+        // بررسی وضعیت فعال بودن منو و زیرمنوها
+        const isActiveSubMenu = subMenus?.some(subMenu => location.pathname === subMenu.url);
+        if (location.pathname === url || isActiveSubMenu) {
+            setActiveMenuIndex(key);
+        } else if(activeMenuIndex === key) {
+            setActiveMenuIndex(null);
+        }
+    }, [location, url, subMenus, key]);
 
     const handleToggleSubMenu = () => {
         if (subMenus.length > 0) {
@@ -34,14 +45,16 @@ const MenuItem: FC<IProps> = ({ key, title, url, icon, subMenus = [] }) => {
         }
     };
 
+    const isActive = activeMenuIndex === key;
+
     return (
         <div key={key}>
             {sideOpen ? (
                 <>
                     <div
                         onClick={handleToggleSubMenu}
-                        className={`flex items-center justify-between cursor-pointer py-2 px-4 rounded-md hover:bg-blueLight hover:text-primary ${
-                            isActive && "bg-blueLight"
+                        className={`flex items-center justify-between cursor-pointer py-2 px-4 rounded-md ${
+                            isActive ? "bg-blueLight" : ""
                         }`}
                     >
                         <section className="flex items-center gap-x-2">
@@ -55,7 +68,7 @@ const MenuItem: FC<IProps> = ({ key, title, url, icon, subMenus = [] }) => {
                             <Typography
                                 text={title || ""}
                                 type="h6"
-                                typographyTextClassName={`${isActive ? "text-primary" : "text-grayLight"} hover:text-primary`}
+                                typographyTextClassName={`${isActive ? "text-secondary" : "text-grayLight"} hover:text-secondary`}
                             />
                         </section>
                         {subMenus?.length > 0 && (
@@ -91,6 +104,7 @@ const MenuItem: FC<IProps> = ({ key, title, url, icon, subMenus = [] }) => {
                                 key={index}
                                 title={item.title}
                                 url={item.url}
+                                parentActive={isActive} // پاس دادن وضعیت فعالیت والد به زیرمنو
                             />
                         ))}
                 </>

@@ -33,13 +33,11 @@ const ReferralEditForm: FC<IProps> = ({ id, onClose, fetchReferrals }) => {
         fetchTools.mutate(id || 0)
     }, [id])
 
-    console.log(fetchReferrals)
-    console.log(fetchTools.data)
-
     const onSubmit = (values: IReferral) => {
         const formData = {
             ...values,
             id: id,
+            patientFileId: fetchTools.data.patientFile.id
         }
         updateTools.mutate(formData, {
             onSuccess: (response) => {
@@ -53,6 +51,7 @@ const ReferralEditForm: FC<IProps> = ({ id, onClose, fetchReferrals }) => {
             }
         })
     }
+
 
 
     if (fetchTools.isPending) {
