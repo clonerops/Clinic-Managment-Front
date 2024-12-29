@@ -1,4 +1,4 @@
-import { TableColumnsType } from "antd";
+import { TableColumnsType, Collapse } from "antd";
 import GridEditButton from "../../_cloner/components/buttons/GridEditButton";
 import CardWidget from "../../_cloner/components/shared/CardWidget"
 import Typography from "../../_cloner/components/typography/Typography"
@@ -8,11 +8,20 @@ import { useEffect, useState } from "react";
 import Backdrop from "../../_cloner/components/shared/Backdrop";
 import GridDeleteButton from "../../_cloner/components/buttons/GridDeleteButton";
 import WidthModal from "../../_cloner/components/shared/WidthModal";
-import { IDoctor } from "./core/_models";
+import { IDoctor, IDoctorFilter } from "./core/_models";
 import DoctorEditForm from "./DoctorEditForm";
 import DoctorDeleteForm from "./DoctorDeleteForm";
 import DoctorForm from "./DoctorForm";
 import SimpleButton from "../../_cloner/components/buttons/SimpleButton";
+import { Formik } from "formik";
+import FormikInput from "../../_cloner/components/inputs/FormikInput";
+
+const initialValues: IDoctorFilter = {
+    firstName: "",
+    lastName: "",
+    nationalCode: "",
+    mobile: ""
+}
 
 const DoctorList = () => {
     const [openCreateModal, setOpenCreateModal] = useState<boolean>(false)
@@ -33,7 +42,7 @@ const DoctorList = () => {
     }
 
     useEffect(() => {
-        fetchTools.mutate()
+        fetchTools.mutate({})
     }, [])
 
 
@@ -77,19 +86,43 @@ const DoctorList = () => {
         },
     ];
 
+    const onFilter = (values: IDoctorFilter) => {
+        fetchTools.mutate(values)
+    }
+
     return (
         <>
             {fetchTools.isPending && <Backdrop loading={fetchTools.isPending} />}
             <CardWidget>
-                <div className="flex flex-end justify-end">
-                    <SimpleButton text="ایجاد پزشک جدید"  onSubmit={() => setOpenCreateModal(true)} />
+                <div className="mb-4">
+                    <Collapse
+                        items={[{
+                            key: '1', label: 'فیلترها', children:
+                                <Formik initialValues={initialValues} onSubmit={onFilter}>
+                                    {({ values }) => <form className="grid grid-cols-1 lg:grid-cols-4 lg:gap-4">
+                                        <FormikInput type="text" name="firstName" label="نام" hasLabel={true} placeholder="" />
+                                        <FormikInput type="text" name="lastName" label="نام خانوادگی" hasLabel={true} placeholder="" />
+                                        <FormikInput type="text" name="nationalCode" label="کدملی" hasLabel={true} placeholder="" />
+                                        <FormikInput type="text" name="mobile" label="موبایل" hasLabel={true} placeholder="" />
+                                        <div className="lg:col-span-4 flex flex-end items-end justify-end w-full">
+                                            <SimpleButton btnClassName="!bg-primary" text="جستجو" onSubmit={() => onFilter(values)} />
+                                        </div>
+                                    </form>}
+                                </Formik>
+
+                        }]}
+                    />
                 </div>
+
                 <Typography
                     type="h3"
                     text="لیست پزشک"
                     typographyTextClassName="text-secondary"
                 />
                 <div className="mt-16">
+                    <div className="flex flex-end justify-end">
+                        <SimpleButton text="ایجاد پزشک جدید" onSubmit={() => setOpenCreateModal(true)} />
+                    </div>
                     <SimpleTable columns={columns} data={fetchTools?.data || []} />
                 </div>
 

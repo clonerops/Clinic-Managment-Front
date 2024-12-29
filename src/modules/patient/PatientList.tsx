@@ -1,4 +1,4 @@
-import { TableColumnsType, Tag } from "antd";
+import { Collapse, TableColumnsType, Tag } from "antd";
 import GridEditButton from "../../_cloner/components/buttons/GridEditButton";
 import CardWidget from "../../_cloner/components/shared/CardWidget"
 import Typography from "../../_cloner/components/typography/Typography"
@@ -8,11 +8,21 @@ import { useEffect, useState } from "react";
 import Backdrop from "../../_cloner/components/shared/Backdrop";
 import GridDeleteButton from "../../_cloner/components/buttons/GridDeleteButton";
 import WidthModal from "../../_cloner/components/shared/WidthModal";
-import { IPatient } from "./core/_models";
+import { IPatient, IPatientFilter } from "./core/_models";
 import PatientEditForm from "./PatientEditForm";
 import PatientDeleteForm from "./PatientDeleteForm";
 import GridSimpleButton from "../../_cloner/components/buttons/GridSimpleButton";
 import PatientFileForm from "../patientFile/PatientFileForm";
+import { Formik } from "formik";
+import FormikInput from "../../_cloner/components/inputs/FormikInput";
+import SimpleButton from "../../_cloner/components/buttons/SimpleButton";
+
+const initialValues: IPatientFilter = {
+    firstName: "",
+    lastName: "",
+    nationalCode: "",
+    mobile: ""
+}
 
 const PatientList = () => {
     const [openPatientFileModal, setOpenPatientFileModal] = useState<boolean>(false)
@@ -37,7 +47,7 @@ const PatientList = () => {
     }
 
     useEffect(() => {
-        fetchTools.mutate()
+        fetchTools.mutate({})
     }, [])
 
 
@@ -89,10 +99,33 @@ const PatientList = () => {
         },
     ];
 
+    const onFilter = (values: IPatientFilter) => {
+        fetchTools.mutate(values)
+    }
+
     return (
         <>
             {fetchTools.isPending && <Backdrop loading={fetchTools.isPending} />}
             <CardWidget>
+                <div className="mb-4">
+                    <Collapse
+                        items={[{
+                            key: '1', label: 'فیلترها', children:
+                                <Formik initialValues={initialValues} onSubmit={onFilter}>
+                                    {({ values }) => <form className="grid grid-cols-1 lg:grid-cols-4 lg:gap-4">
+                                        <FormikInput type="text" name="firstName" label="نام" hasLabel={true} placeholder="" />
+                                        <FormikInput type="text" name="lastName" label="نام خانوادگی" hasLabel={true} placeholder="" />
+                                        <FormikInput type="text" name="nationalCode" label="کدملی" hasLabel={true} placeholder="" />
+                                        <FormikInput type="text" name="mobile" label="موبایل" hasLabel={true} placeholder="" />
+                                        <div className="lg:col-span-4 flex flex-end items-end justify-end w-full">
+                                            <SimpleButton btnClassName="!bg-primary" text="جستجو" onSubmit={() => onFilter(values)} />
+                                        </div>
+                                    </form>}
+                                </Formik>
+
+                        }]}
+                    />
+                </div>
                 <Typography
                     type="h3"
                     text="لیست بیماران"

@@ -11,7 +11,7 @@ import CardWidget from "../../_cloner/components/shared/CardWidget"
 import FormikDocuments from "../../_cloner/components/inputs/FormikDocuments"
 import { UseMutationResult } from "@tanstack/react-query"
 import { FC } from "react"
-import { IPatient } from "../patient/core/_models"
+import { IPatient, IPatientFilter } from "../patient/core/_models"
 import FormikDoctors from "../../_cloner/components/inputs/FormikDoctors"
 import FormikDatepicker from "../../_cloner/components/inputs/FormikDatepicker"
 import moment from "moment-jalaali"
@@ -26,7 +26,7 @@ const initialValues: IPatientFile = {
 
 
 interface IProps {
-    fetchPatients: UseMutationResult<any, Error, void, unknown>
+    fetchPatients: UseMutationResult<any, Error, IPatientFilter, unknown>
     onClose: () => void
     patient: IPatient
 }
@@ -49,7 +49,7 @@ const PatientFileForm: FC<IProps> = ({ fetchPatients, onClose, patient }) => {
                 } else {
                     toastify("error", response.message)
                 }
-                fetchPatients.mutate()
+                fetchPatients.mutate({})
                 onClose()
             }
         })

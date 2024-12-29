@@ -1,12 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import * as api from './_requests'
-import { IDoctor } from "./_models";
+import { IDoctor, IDoctorFilter } from "./_models";
 
 const useCreateNewDoctor = () => useMutation({
     mutationFn: (formData: IDoctor) => api.CreateNewDoctor(formData),
 })
 const useFetchDoctors = () => useMutation({
-    mutationFn: () => api.FetchDoctors(),
+    mutationFn: (filters: IDoctorFilter) => api.FetchDoctors(filters),
 })
 const useFetchDoctor = () => useMutation({
     mutationFn: (id: number) => api.FetchDoctor(id),

@@ -4,7 +4,7 @@ import SimpleButton from "../../_cloner/components/buttons/SimpleButton"
 import FormikDescription from "../../_cloner/components/inputs/FormikDescription"
 import Typography from "../../_cloner/components/typography/Typography"
 import { useFetchDoctor, useUpdateDoctor } from "./core/_hooks"
-import { IDoctor } from "./core/_models"
+import { IDoctor, IDoctorFilter } from "./core/_models"
 import { toastify } from "../../_cloner/utils/toast"
 import Backdrop from "../../_cloner/components/shared/Backdrop"
 import CardWidget from "../../_cloner/components/shared/CardWidget"
@@ -23,7 +23,7 @@ const initialValues: IDoctor = {
 interface IProps {
     id?: number
     onClose: () => void
-    fetchDoctors: UseMutationResult<any, Error, void, unknown>
+    fetchDoctors: UseMutationResult<any, Error, IDoctorFilter, unknown>
 }
 
 const DoctorEditForm: FC<IProps> = ({ id, onClose, fetchDoctors }) => {
@@ -47,7 +47,7 @@ const DoctorEditForm: FC<IProps> = ({ id, onClose, fetchDoctors }) => {
                 } else {
                     toastify("error", response.message)
                 }
-                fetchDoctors.mutate()
+                fetchDoctors.mutate({})
                 onClose()
             }
         })

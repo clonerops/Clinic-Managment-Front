@@ -7,7 +7,7 @@ import FormikDatepicker from "../../_cloner/components/inputs/FormikDatepicker"
 import FormikSelect from "../../_cloner/components/selects/FormikSelect"
 import Typography from "../../_cloner/components/typography/Typography"
 import { useCreateNewPatient, useFetchPatient, useUpdatePatient } from "./core/_hooks"
-import { IPatient } from "./core/_models"
+import { IPatient, IPatientFilter } from "./core/_models"
 import { toastify } from "../../_cloner/utils/toast"
 import Backdrop from "../../_cloner/components/shared/Backdrop"
 import CardWidget from "../../_cloner/components/shared/CardWidget"
@@ -43,7 +43,7 @@ const marridStatusOptions = [
 interface IProps {
     id?: number
     onClose: () => void
-    fetchPatients: UseMutationResult<any, Error, void, unknown>
+    fetchPatients: UseMutationResult<any, Error, IPatientFilter, unknown>
 }
 
 const PatientEditForm: FC<IProps> = ({ id, onClose, fetchPatients }) => {
@@ -68,7 +68,7 @@ const PatientEditForm: FC<IProps> = ({ id, onClose, fetchPatients }) => {
                 } else {
                     toastify("error", response.message)
                 }
-                fetchPatients.mutate()
+                fetchPatients.mutate({})
                 onClose()
             }
         })

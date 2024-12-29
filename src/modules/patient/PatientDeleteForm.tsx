@@ -1,5 +1,5 @@
 import { useDeletePatient } from "./core/_hooks";
-import { IPatient } from "./core/_models";
+import { IPatient, IPatientFilter } from "./core/_models";
 import { FC } from "react";
 import SimpleButton from "../../_cloner/components/buttons/SimpleButton";
 import { toastify } from "../../_cloner/utils/toast";
@@ -10,7 +10,7 @@ import { UseMutationResult } from "@tanstack/react-query";
 interface IProps {
     item: IPatient | undefined;
     onClose: () => void
-    fetchPatients: UseMutationResult<any, Error, void, unknown>
+    fetchPatients: UseMutationResult<any, Error, IPatientFilter, unknown>
 }
 
 const PatientDeleteForm: FC<IProps> = ({ item, onClose, fetchPatients }) => {
@@ -26,7 +26,7 @@ const PatientDeleteForm: FC<IProps> = ({ item, onClose, fetchPatients }) => {
                     toastify("error", response.message);
                 }
                 onClose()
-                fetchPatients.mutate()
+                fetchPatients.mutate({})
             },
         });
     };

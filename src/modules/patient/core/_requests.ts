@@ -1,5 +1,6 @@
 import { http } from "../../../_cloner/utils/axiosConfig";
-import { IPatient } from "./_models";
+import { generateURLQueryParam } from "../../../_cloner/utils/queryStringUrl";
+import { IPatient, IPatientFilter } from "./_models";
 
 const CreateNewPatient = async (formData: IPatient) => {
     try {
@@ -13,10 +14,10 @@ const CreateNewPatient = async (formData: IPatient) => {
 }
 
 
-const FetchPatiens = async () => {
+const FetchPatiens = async (filters: IPatientFilter) => {
     try {
         
-        const { data } = await http.get("Patient")
+        const { data } = await http.get(`${generateURLQueryParam("Patient", filters)}`)
         return data
 
     } catch (error: any) {

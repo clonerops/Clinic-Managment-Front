@@ -1,5 +1,6 @@
 import { http } from "../../../_cloner/utils/axiosConfig";
-import { IDoctor } from "./_models";
+import { generateURLQueryParam } from "../../../_cloner/utils/queryStringUrl";
+import { IDoctor, IDoctorFilter } from "./_models";
 
 const CreateNewDoctor = async (formData: IDoctor) => {
     try {
@@ -13,10 +14,10 @@ const CreateNewDoctor = async (formData: IDoctor) => {
 }
 
 
-const FetchDoctors = async () => {
+const FetchDoctors = async (filters: IDoctorFilter) => {
     try {
         
-        const { data } = await http.get("Doctor")
+        const { data } = await http.get(`${generateURLQueryParam("Doctor", filters)}`)
         return data
 
     } catch (error: any) {
