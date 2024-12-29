@@ -7,15 +7,16 @@ export const MenuData = [
     {
         title: "مدیریت بیماران",
         url: "/patient-managment",
-        icon: "help-circle-svgrepo-com",
+        icon: "dashboard-svgrepo-com",
         subMenu: [
             {
                 title: "ثبت بیمار جدید",
                 url: "/submit-patient",
-                icon: "dashboard-svgrepo-com",
+                icon: "dot-small-svgrepo-com",
             },
             {
                 title: "لیست بیماران",
+                icon: "dot-small-svgrepo-com",
                 url: "/patients",
 
             },

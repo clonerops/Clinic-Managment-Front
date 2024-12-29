@@ -53,15 +53,11 @@ const Layout = () => {
                         hasSerachInput={false}
                     />
                 </header>
-                <aside
-                    className={`fixed right-0 top-0 h-full bg-gray transition-all duration-700 z-[9999] ${sideOpen ? "w-[220px] p-4" : "w-[0px]"
-                        }`}
-                >
+                {/* <aside className={`fixed bottom-8 right-0 top-0 h-full bg-primary transition-all duration-700 z-[9999] ${sideOpen ? "w-[280px]" : "w-[80px] py-8"}`}> */}
+
+                <aside className={`fixed right-0 top-0 h-full bg-primary transition-all duration-700 z-[9999] ${sideOpen ? "w-[220px] p-4" : "w-[0px]"}`}>
                     <AsideHeader />
-                    <div className="mt-8">
-                        <AsideAction />
-                    </div>
-                    <div className="mt-8">
+                    <div className="overflow-y-auto" style={{ maxHeight: "calc(100% - 80px)" }}>
                         <Menus />
                     </div>
                 </aside>

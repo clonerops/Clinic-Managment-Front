@@ -102,6 +102,7 @@ const MenuItem: FC<IProps> = ({ key, title, url, icon, subMenus = [] }) => {
                         subMenus.map((item: IMenu, index) => (
                             <SubMenuItem
                                 key={index}
+                                icon={item.icon}
                                 title={item.title}
                                 url={item.url}
                                 parentActive={isActive} // پاس دادن وضعیت فعالیت والد به زیرمنو

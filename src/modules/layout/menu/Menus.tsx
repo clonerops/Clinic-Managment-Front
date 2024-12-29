@@ -7,13 +7,6 @@ import MenuItem from "./MenuItem";
 import { MenuData } from "./MenuData";
 
 const Menus = () => {
-    // const { data } = useMenuItems();
-    // const [menuItemsData, setMenuItemsData] = useState<IMenuItem[]>([]);
-
-    // useEffect(() => {
-    //     setMenuItemsData(MenuData);
-    //      // eslint-disable-next-line
-    //   }, []);
     
     return (
         <div className="py-8">
