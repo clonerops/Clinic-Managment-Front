@@ -35,8 +35,9 @@ interface IProps {
 const PatientFileForm: FC<IProps> = ({ fetchPatients, onClose, patient }) => {
     const createTools = useCreateNewPatientFile()
 
+    console.log("patient",patient)
+
     const onSubmit = (values: IPatientFile) => {
-        console.log(values)
         const formData = {
             ...values,
             patientId: patient.id,

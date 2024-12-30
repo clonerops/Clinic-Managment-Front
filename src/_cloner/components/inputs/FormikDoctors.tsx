@@ -5,6 +5,7 @@ import { useFetchDoctors } from '../../../modules/doctor/core/_hooks'
 
 const FormikDoctors = (props: any) => {
   const fetchTools = useFetchDoctors()
+  
   useEffect(() => {
     fetchTools.mutate({})
   }, [])
