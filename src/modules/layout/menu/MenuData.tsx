@@ -42,4 +42,22 @@ export const MenuData = [
         url: "/documents",
         icon: "dashboard-svgrepo-com",
     },
+    {
+        title: "گزارشات",
+        url: "/report-managment",
+        icon: "dashboard-svgrepo-com",
+        subMenu: [
+            {
+                title: "گزارش بیماران",
+                url: "/patient-report",
+                icon: "dot-small-svgrepo-com",
+            },
+            {
+                title: "گزارش مراجعات بیمار",
+                icon: "dot-small-svgrepo-com",
+                url: "/patients",
+
+            },
+        ]
+    },
 ]

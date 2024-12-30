@@ -1,5 +1,6 @@
 import { http } from "../../../_cloner/utils/axiosConfig";
 import { generateURLQueryParam } from "../../../_cloner/utils/queryStringUrl";
+import { IPatientReport } from "../../report/core/_models";
 import { IPatient, IPatientFilter } from "./_models";
 
 const CreateNewPatient = async (formData: IPatient) => {
@@ -59,11 +60,23 @@ const DeletePatient = async (id: number) => {
     }
 }
 
+const FetchPatientReportBasedOfFile = async (filters: IPatientReport) => {
+    try {
+        
+        const { data } = await http.get(`${generateURLQueryParam("Patient/PatientReportBasedOfFile", filters)}`)
+        return data
+
+    } catch (error: any) {
+        return error.response
+    }
+
+}
 
 export {
     CreateNewPatient,
     FetchPatiens,
     FetchPatient,
     UpdatePatient,
-    DeletePatient
+    DeletePatient,
+    FetchPatientReportBasedOfFile
 }
