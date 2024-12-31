@@ -53,9 +53,9 @@ export const MenuData = [
                 icon: "dot-small-svgrepo-com",
             },
             {
-                title: "گزارش مراجعات بیمار",
+                title: "گزارش تعداد مراجعات",
                 icon: "dot-small-svgrepo-com",
-                url: "/patients",
+                url: "/patient-report-referral",
 
             },
         ]
