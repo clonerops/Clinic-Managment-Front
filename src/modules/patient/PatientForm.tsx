@@ -11,6 +11,10 @@ import { IPatient } from "./core/_models"
 import { toastify } from "../../_cloner/utils/toast"
 import Backdrop from "../../_cloner/components/shared/Backdrop"
 import CardWidget from "../../_cloner/components/shared/CardWidget"
+import WidthModal from "../../_cloner/components/shared/WidthModal"
+import { useState } from "react"
+import PatientFileForm from "../patientFile/PatientFileForm"
+import { createPatientValidations } from "./core/_validation"
 
 const initialValues: IPatient = {
     firstName: "",
@@ -40,6 +44,17 @@ const marridStatusOptions = [
 
 const PatientForm = () => {
     const createTools = useCreateNewPatient()
+    const [openPatientFileModal, setOpenPatientFileModal] = useState<boolean>(false)
+    const [patientItem, setPatientItem] = useState<IPatient>({})
+
+    const handleSetPatientItem = (item: IPatient) => {
+        const itemData = {
+            ...item, 
+            id:createTools.data?.data?.id
+        }
+        setPatientItem(itemData)
+        setOpenPatientFileModal(true)
+    }
 
     const onSubmit = (values: IPatient) => {
         console.log(values)
@@ -68,8 +83,8 @@ const PatientForm = () => {
                     text="ثبت بیمار جدید"
                     typographyTextClassName="text-secondary"
                 />
-                <Formik initialValues={initialValues} onSubmit={onSubmit}>
-                    {({ handleSubmit }) => <form className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-16" onSubmit={handleSubmit}>
+                <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={createPatientValidations}>
+                    {({ handleSubmit, values, resetForm }) => <form className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-16" onSubmit={handleSubmit}>
                         <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="firstName" label="نام" />
                         <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="lastName" label="نام خانوادگی" />
                         <FormikInput placeholder="" type="text" hasLabel={true} name="nationalCode" label="کدملی" />
@@ -79,19 +94,33 @@ const PatientForm = () => {
                         <FormikDatepicker placeholder="" isRequired={true} hasLabel={true} name="birthDate" label="تاریخ تولد" />
                         <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="job" label="شغل" />
                         <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="education" label="تحصیلات" />
-                        <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="reagent" label="معرف" />
+                        <FormikInput placeholder="" type="text" hasLabel={true} name="reagent" label="معرف" />
                         <FormikSelect isRequired options={genderOptions} hasLabel={true} name="gender" label="جنسیت" />
                         <FormikSelect isRequired options={marridStatusOptions} hasLabel={true} name="maritalStatus" label="وضعیت تاهل" />
                         <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="address" label="آدرس" />
                         <div className="lg:col-span-2">
                             <FormikDescription placeholder="" type="text" hasLabel={true} name="description" label="توضیحات" />
                         </div>
-                        <div className="flex justify-end items-end lg:col-span-3">
+                        <div className="flex justify-between items-between gap-x-4 lg:col-span-3">
+                            {createTools.data?.isSuccedded && 
+                                <SimpleButton onSubmit={() => handleSetPatientItem(values)} text={`ثبت پرونده برای${createTools.data?.data?.firstName} ${createTools.data?.data?.lastName}`} btnClassName="!py-4 !bg-primary" />
+                            }
+                            <SimpleButton onSubmit={() => resetForm()} text="خالی کردن فرم" btnTextClassName="" btnClassName="!bg-yellow" />
                             <SimpleButton onSubmit={() => handleSubmit()} text="ثبت بیمار جدید" btnTextClassName="!py-4" />
                         </div>
                     </form>}
                 </Formik>
             </CardWidget>
+            {/* PatientF File */}
+            <WidthModal
+                isOpen={openPatientFileModal}
+                onCancel={() => setOpenPatientFileModal(false)}
+                cancelText="انصراف"
+                title=""
+            >
+                <PatientFileForm onClose={() => setOpenPatientFileModal(false)} patient={patientItem || {}} />
+            </WidthModal>
+
         </>
     )
 }

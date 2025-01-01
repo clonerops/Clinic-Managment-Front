@@ -75,7 +75,7 @@ const FormikDatepicker = forwardRef((props: Props, ref) => {
                 />
                 {validationProps.error && (
                     <Typography
-                        type="h3"
+                        type="bodySm"
                         text={validationProps.helpertext || ""}
                         typographyTextClassName="text-secondary"
                     />

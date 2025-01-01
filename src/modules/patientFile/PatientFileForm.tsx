@@ -26,7 +26,7 @@ const initialValues: IPatientFile = {
 
 
 interface IProps {
-    fetchPatients: UseMutationResult<any, Error, IPatientFilter, unknown>
+    fetchPatients?: UseMutationResult<any, Error, IPatientFilter, unknown>
     onClose: () => void
     patient: IPatient
 }
@@ -34,8 +34,7 @@ interface IProps {
 
 const PatientFileForm: FC<IProps> = ({ fetchPatients, onClose, patient }) => {
     const createTools = useCreateNewPatientFile()
-
-    console.log("patient",patient)
+    console.log("patient", patient)
 
     const onSubmit = (values: IPatientFile) => {
         const formData = {
@@ -43,6 +42,7 @@ const PatientFileForm: FC<IProps> = ({ fetchPatients, onClose, patient }) => {
             patientId: patient.id,
             
         }
+        console.log("formData", formData)
         createTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response.isSuccedded) {
@@ -50,7 +50,7 @@ const PatientFileForm: FC<IProps> = ({ fetchPatients, onClose, patient }) => {
                 } else {
                     toastify("error", response.message)
                 }
-                fetchPatients.mutate({})
+                fetchPatients?.mutate({})
                 onClose()
             }
         })
