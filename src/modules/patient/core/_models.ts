@@ -1,5 +1,6 @@
 export interface IPatient {
     id?: number | null | undefined,
+    code?: number | null | undefined,
     firstName?: string | null | undefined,
     lastName?: string | null | undefined,
     nationalCode?: string | null | undefined,

@@ -1,4 +1,4 @@
-import { Formik } from "formik"
+import { Formik, FormikProps } from "formik"
 import SimpleButton from "../../_cloner/components/buttons/SimpleButton"
 import FormikDescription from "../../_cloner/components/inputs/FormikDescription"
 import FormikSelect from "../../_cloner/components/selects/FormikSelect"
@@ -10,7 +10,7 @@ import Backdrop from "../../_cloner/components/shared/Backdrop"
 import CardWidget from "../../_cloner/components/shared/CardWidget"
 import FormikDocuments from "../../_cloner/components/inputs/FormikDocuments"
 import { UseMutationResult } from "@tanstack/react-query"
-import { FC } from "react"
+import { FC, useRef } from "react"
 import { IPatient, IPatientFilter } from "../patient/core/_models"
 import FormikDoctors from "../../_cloner/components/inputs/FormikDoctors"
 import FormikDatepicker from "../../_cloner/components/inputs/FormikDatepicker"
@@ -33,20 +33,21 @@ interface IProps {
 
 
 const PatientFileForm: FC<IProps> = ({ fetchPatients, onClose, patient }) => {
+    const formikRef: any = useRef<FormikProps<any>>()
+
     const createTools = useCreateNewPatientFile()
-    console.log("patient", patient)
 
     const onSubmit = (values: IPatientFile) => {
         const formData = {
             ...values,
             patientId: patient.id,
-            
+
         }
-        console.log("formData", formData)
         createTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response.isSuccedded) {
                     toastify("success", response.message)
+                    formikRef.current?.resetForm()
                 } else {
                     toastify("error", response.message)
                 }
@@ -65,8 +66,7 @@ const PatientFileForm: FC<IProps> = ({ fetchPatients, onClose, patient }) => {
                     text={`ثبت پرونده برای بیمار ${patient.firstName} ${patient.lastName}`}
                     typographyTextClassName="text-secondary"
                 />
-
-                <Formik initialValues={{
+                <Formik innerRef={formikRef} initialValues={{
                     ...initialValues,
                     registerDate: moment(new Date(Date.now())).format("jYYYY/jMM/jDD")
                 }} onSubmit={onSubmit}>

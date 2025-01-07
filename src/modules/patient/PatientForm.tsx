@@ -1,6 +1,6 @@
-import { Card } from "antd"
+import { Alert, Card } from "antd"
 import FormikInput from "../../_cloner/components/inputs/FormikInput"
-import { Formik } from "formik"
+import { Formik, FormikState } from "formik"
 import SimpleButton from "../../_cloner/components/buttons/SimpleButton"
 import FormikDescription from "../../_cloner/components/inputs/FormikDescription"
 import FormikDatepicker from "../../_cloner/components/inputs/FormikDatepicker"
@@ -45,12 +45,13 @@ const marridStatusOptions = [
 const PatientForm = () => {
     const createTools = useCreateNewPatient()
     const [openPatientFileModal, setOpenPatientFileModal] = useState<boolean>(false)
+    const [isShowPatientDetail, setIsShowPatientDetail] = useState<boolean>(false)
     const [patientItem, setPatientItem] = useState<IPatient>({})
 
     const handleSetPatientItem = (item: IPatient) => {
         const itemData = {
-            ...item, 
-            id:createTools.data?.data?.id
+            ...item,
+            id: createTools.data?.data?.id
         }
         setPatientItem(itemData)
         setOpenPatientFileModal(true)
@@ -67,11 +68,17 @@ const PatientForm = () => {
             onSuccess: (response) => {
                 if (response.isSuccedded) {
                     toastify("success", response.message)
+                    setIsShowPatientDetail(true)
                 } else {
                     toastify("error", response.message)
                 }
             }
         })
+    }
+
+    const handleReset = (resetForm: (nextState?: Partial<FormikState<IPatient>> | undefined) => void) => {
+        resetForm()
+        setIsShowPatientDetail(false)
     }
 
     return (
@@ -83,8 +90,16 @@ const PatientForm = () => {
                     text="ثبت بیمار جدید"
                     typographyTextClassName="text-secondary"
                 />
+                {isShowPatientDetail &&
+                    <Alert className="mt-4" message={
+                        <div className="flex items-center justify-center gap-x-4">
+                            <Typography text="کد بیمار" type="bodyMd" />
+                            <Typography text={createTools.data.data.code} type="h2" typographyTextClassName="!text-secondary" />
+                        </div>
+                    } type="info" />
+                }
                 <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={createPatientValidations}>
-                    {({ handleSubmit, values, resetForm }) => <form className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-16" onSubmit={handleSubmit}>
+                    {({ handleSubmit, values, resetForm }) => <form className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-8" onSubmit={handleSubmit}>
                         <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="firstName" label="نام" />
                         <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="lastName" label="نام خانوادگی" />
                         <FormikInput placeholder="" type="text" hasLabel={true} name="nationalCode" label="کدملی" />
@@ -102,10 +117,10 @@ const PatientForm = () => {
                             <FormikDescription placeholder="" type="text" hasLabel={true} name="description" label="توضیحات" />
                         </div>
                         <div className="flex justify-between items-between gap-x-4 lg:col-span-3">
-                            {createTools.data?.isSuccedded && 
+                            {isShowPatientDetail &&
                                 <SimpleButton onSubmit={() => handleSetPatientItem(values)} text={`ثبت پرونده برای${createTools.data?.data?.firstName} ${createTools.data?.data?.lastName}`} btnClassName="!py-4 !bg-primary" />
                             }
-                            <SimpleButton onSubmit={() => resetForm()} text="خالی کردن فرم" btnTextClassName="" btnClassName="!bg-yellow" />
+                            <SimpleButton onSubmit={() => handleReset(resetForm)} text="خالی کردن فرم" btnTextClassName="" btnClassName="!bg-yellow" />
                             <SimpleButton onSubmit={() => handleSubmit()} text="ثبت بیمار جدید" btnTextClassName="!py-4" />
                         </div>
                     </form>}
