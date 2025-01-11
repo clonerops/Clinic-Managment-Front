@@ -66,6 +66,7 @@ const LazerFormPrint = () => {
         {id: 12, title: "جراحی پلاستیک و عمومی"},
         {id: 13, title: "ورم دارای التهاب"},
         {id: 14, title: "بارداری و شیردهی"},
+        {id: 15, title: "اجازه استفاده از تصویرم برای تولید محتوا میدهم"},
     ]
 
     const TakingMedicationList = [

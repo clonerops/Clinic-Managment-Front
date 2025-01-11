@@ -110,6 +110,8 @@ const FacialFormPrint = () => {
         {id: 8, title: "سوزش یا التهاب، پس از اصلاح"},
         {id: 12, title: "سابقه تبخال"},
         {id: 13, title: "IUD"},
+        {id: 15, title: "اجازه استفاده از تصویرم برای تولید محتوا میدهم"},
+
     ]
 
     const TakingMedicationList = [
