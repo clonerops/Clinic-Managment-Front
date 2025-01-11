@@ -28,10 +28,10 @@ export const routes: RouteProps[] = [
     { path: "patient-files", element: <PatientFileList /> },
     { path: "patient-report", element: <PatientReport /> },
     { path: "patient-report-referral", element: <PatientReportReferral /> },
-    { path: "skin-form-print/:patientId/:documentId", element: <SkinForm /> },
-    { path: "lazer-form-print/:patientId/:documentId", element: <LazerFormPrint /> },
-    { path: "mid-wirfy-form-print/:patientId/:documentId", element: <MidWirfyFormPrint /> },
-    { path: "facial-form-print/:patientId/:documentId", element: <FacialFormPrint /> },
+    { path: "skin-form-print/:id/:patientId", element: <SkinForm /> },
+    { path: "lazer-form-print/:id/:patientId", element: <LazerFormPrint /> },
+    { path: "mid-wirfy-form-print/:id/:patientId", element: <MidWirfyFormPrint /> },
+    { path: "facial-form-print/:id/:patientId", element: <FacialFormPrint /> },
     
 
     { path: "*", element: <Navigate to="/error/404" /> },
