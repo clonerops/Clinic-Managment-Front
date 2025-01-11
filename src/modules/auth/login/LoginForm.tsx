@@ -10,8 +10,8 @@ import FormikInputPassword from "../../../_cloner/components/inputs/FormikInputP
 import SimpleButton from "../../../_cloner/components/buttons/SimpleButton";
 
 const initialValue: ILogin = {
-  userName: "string",
-  password: "string",
+  userName: "clonerops",
+  password: "123456",
 }
 
 const LoginForm = () => {
