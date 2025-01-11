@@ -4,7 +4,7 @@ import { ILogin } from "./_models"
 
 const loginUser = async (formData: ILogin) => {
     try {
-        const {data} = await axios.post('http://localhost:7142/api/Account/Login', JSON.stringify(formData), {
+        const {data} = await axios.post('https://behtanroo.ir/api/Account/Login', JSON.stringify(formData), {
             headers: {
                 "Content-Type": "application/json"
             }
