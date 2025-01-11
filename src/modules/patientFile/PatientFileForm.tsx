@@ -53,6 +53,7 @@ const PatientFileForm: FC<IProps> = ({ fetchPatients, onClose, patient }) => {
                 }
                 fetchPatients?.mutate({})
                 onClose()
+                formikRef.current?.resetForm()
             }
         })
     }

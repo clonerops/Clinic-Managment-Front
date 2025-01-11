@@ -14,6 +14,7 @@ import PatientFileEditForm from "./PatientEditForm";
 import PatientFileDeleteForm from "./PatientFileDeleteForm";
 import { Link } from "react-router-dom";
 import ReferralForm from "../referral/ReferralForm";
+import { DocumentEnum } from "../../_cloner/utils/Enums";
 
 const PatientFileList = () => {
     const [openEditModal, setOpenEditModal] = useState<boolean>(false)
@@ -78,7 +79,7 @@ const PatientFileList = () => {
             width: 300,
             render: (item) => (
                 <div className="flex items-center gap-x-4">
-                    <Link target="_blank" to={`/${item?.documentId === 1 ? "lazer-form-print" : item?.documentId === 2 ? "mid-wirfy-form-print" : item?.documentId === 3 ? "facial-form-print" : "skin-form-print"}/${item?.patientId}/${item?.documentId}`} className=''>
+                    <Link target="_blank" to={`/${item?.documentId === DocumentEnum.Lazer ? "lazer-form-print" : item?.documentId === DocumentEnum.Midwifery ? "mid-wirfy-form-print" : item?.documentId === DocumentEnum.Facial ? "facial-form-print" : "skin-form-print"}/${item?.patientId}/${item?.documentId}`} className=''>
                         <GridSimpleButton btnClassName="bg-green hover:bg-greenLight" icon="menu-strawberry-svgrepo-com" title={`پرینت فرم ${item.documentName}`} onClick={() => {}}/>
                     </Link>
                     <GridSimpleButton btnClassName="bg-violtly hover:!bg-blueLight" icon="report-text-svgrepo-com" title={`ثبت مراجعه بیمار ${item.patientName}`} onClick={() => handleSetPatientFileItemForReferral(item)} />

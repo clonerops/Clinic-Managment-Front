@@ -1,4 +1,4 @@
-import { Formik } from "formik"
+import { Formik, FormikProps } from "formik"
 import SimpleButton from "../../_cloner/components/buttons/SimpleButton"
 import FormikDescription from "../../_cloner/components/inputs/FormikDescription"
 import Typography from "../../_cloner/components/typography/Typography"
@@ -8,7 +8,7 @@ import { toastify } from "../../_cloner/utils/toast"
 import Backdrop from "../../_cloner/components/shared/Backdrop"
 import CardWidget from "../../_cloner/components/shared/CardWidget"
 import { UseMutationResult } from "@tanstack/react-query"
-import { FC } from "react"
+import { FC, useRef } from "react"
 import FormikDatepicker from "../../_cloner/components/inputs/FormikDatepicker"
 import moment from "moment-jalaali"
 import { IPatientFile } from "../patientFile/core/_models"
@@ -30,6 +30,8 @@ interface IProps {
 
 
 const ReferralForm: FC<IProps> = ({ fetchPatientFiles, onClose, patientFile }) => {
+    const formikRef: any = useRef<FormikProps<any>>()
+
     const createTools = useCreateNewReferral()
 
     const onSubmit = (values: IReferral) => {
@@ -47,6 +49,7 @@ const ReferralForm: FC<IProps> = ({ fetchPatientFiles, onClose, patientFile }) =
                 }
                 fetchPatientFiles.mutate()
                 onClose()
+                formikRef.current?.resetForm()
             }
         })
     }
@@ -61,7 +64,7 @@ const ReferralForm: FC<IProps> = ({ fetchPatientFiles, onClose, patientFile }) =
                     typographyTextClassName="text-secondary"
                 />
 
-                <Formik initialValues={{
+                <Formik innerRef={formikRef} initialValues={{
                     ...initialValues,
                     referralDate: moment(new Date(Date.now())).format("jYYYY/jMM/jDD")
                 }} onSubmit={onSubmit}>
