@@ -1,6 +1,7 @@
 import { http } from "../../../_cloner/utils/axiosConfig";
+import { DownloadExcelBase64File } from "../../../_cloner/utils/downloadFiles";
 import { generateURLQueryParam } from "../../../_cloner/utils/queryStringUrl";
-import { IPatientReport, IPatientReportBasedOfReferral } from "../../report/core/_models";
+import { IDateFilter, IPatientReport, IPatientReportBasedOfReferral } from "../../report/core/_models";
 import { IPatient, IPatientFilter } from "./_models";
 
 const CreateNewPatient = async (formData: IPatient) => {
@@ -80,6 +81,18 @@ const FetchPatientReportBasedOfReferral = async (filters: IPatientReportBasedOfR
     } catch (error: any) {
         return error.response
     }
+}
+
+const DownloadPatientExcel = async (filters: IDateFilter) => {
+    try {
+        
+        const { data } = await http.get(`${generateURLQueryParam("Patient/PatientListExcel", filters)}`)
+        DownloadExcelBase64File(data.data, "Patient.xlsx")
+        return data
+
+    } catch (error: any) {
+        return error.response
+    }
 
 }
 
@@ -90,5 +103,6 @@ export {
     UpdatePatient,
     DeletePatient,
     FetchPatientReportBasedOfFile,
-    FetchPatientReportBasedOfReferral
+    FetchPatientReportBasedOfReferral,
+    DownloadPatientExcel
 }

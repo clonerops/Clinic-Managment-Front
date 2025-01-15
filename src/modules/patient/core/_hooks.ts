@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import * as api from './_requests'
 import { IPatient, IPatientFilter } from "./_models";
-import { IPatientReport, IPatientReportBasedOfReferral } from "../../report/core/_models";
+import { IDateFilter, IPatientReport, IPatientReportBasedOfReferral } from "../../report/core/_models";
 
 const useCreateNewPatient = () => useMutation({
     mutationFn: (formData: IPatient) => api.CreateNewPatient(formData),
@@ -25,6 +25,9 @@ const useFetchPatienReportBasedOfFile = () => useMutation({
 const useFetchPatienReportBasedOfReferral = () => useMutation({
     mutationFn: (filters: IPatientReportBasedOfReferral) => api.FetchPatientReportBasedOfReferral(filters),
 })
+const useDownloadPatientExcel = () => useMutation({
+    mutationFn: (filters: IDateFilter) => api.DownloadPatientExcel(filters),
+})
 
 
 
@@ -35,5 +38,6 @@ export {
     useUpdatePatient,
     useDeletePatient,
     useFetchPatienReportBasedOfFile,
-    useFetchPatienReportBasedOfReferral
+    useFetchPatienReportBasedOfReferral,
+    useDownloadPatientExcel
 }
