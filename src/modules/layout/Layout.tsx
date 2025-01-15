@@ -34,7 +34,7 @@ const Layout = () => {
                         : "right-[80px] w-[calc(100%-80px)]"
                         }`}
                 >
-                    <section className="px-8 py-4">
+                    <section className="px-8 py-4 bg-gray">
                         <Outlet />
                     </section>
                 </main>

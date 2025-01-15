@@ -1,5 +1,5 @@
 import FormikInput from "../../_cloner/components/inputs/FormikInput"
-import { Formik } from "formik"
+import { Formik, FormikProps } from "formik"
 import SimpleButton from "../../_cloner/components/buttons/SimpleButton"
 import FormikDescription from "../../_cloner/components/inputs/FormikDescription"
 import Typography from "../../_cloner/components/typography/Typography"
@@ -9,7 +9,7 @@ import { toastify } from "../../_cloner/utils/toast"
 import Backdrop from "../../_cloner/components/shared/Backdrop"
 import CardWidget from "../../_cloner/components/shared/CardWidget"
 import { UseMutationResult } from "@tanstack/react-query"
-import { FC } from "react"
+import { FC, useRef } from "react"
 
 const initialValues: IDoctor = {
     firstName: "",
@@ -24,7 +24,9 @@ interface IProps {
     onClose: () => void
 }
 
-const DoctorForm:FC<IProps> = ({fetchDoctors, onClose}) => {
+const DoctorForm: FC<IProps> = ({ fetchDoctors, onClose }) => {
+    const formikRef: any = useRef<FormikProps<any>>()
+
     const createTools = useCreateNewDoctor()
 
     const onSubmit = (values: IDoctor) => {
@@ -37,6 +39,7 @@ const DoctorForm:FC<IProps> = ({fetchDoctors, onClose}) => {
                 }
                 fetchDoctors.mutate({})
                 onClose()
+                formikRef.current?.resetForm()
             }
         })
     }
@@ -50,7 +53,7 @@ const DoctorForm:FC<IProps> = ({fetchDoctors, onClose}) => {
                     text="ثبت پزشک جدید"
                     typographyTextClassName="text-secondary"
                 />
-                <Formik initialValues={initialValues} onSubmit={onSubmit}>
+                <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={onSubmit}>
                     {({ handleSubmit }) => <form className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-16" onSubmit={handleSubmit}>
                         <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="firstName" label="نام" />
                         <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="lastName" label="نام خانوادگی" />

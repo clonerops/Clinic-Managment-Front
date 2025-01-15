@@ -28,6 +28,12 @@ const useFetchPatienReportBasedOfReferral = () => useMutation({
 const useDownloadPatientExcel = () => useMutation({
     mutationFn: (filters: IDateFilter) => api.DownloadPatientExcel(filters),
 })
+const useDownloadPatientReportBasedOfFileExcel = () => useMutation({
+    mutationFn: (filters: IPatientReport) => api.DownloadPatientReportBasedOfFileExcel(filters),
+})
+const useDownloadPatientReportBasedOfReferralExcel = () => useMutation({
+    mutationFn: (filters: IPatientReportBasedOfReferral) => api.DownloadPatientReportBasedOfReferralExcel(filters),
+})
 
 
 
@@ -39,5 +45,7 @@ export {
     useDeletePatient,
     useFetchPatienReportBasedOfFile,
     useFetchPatienReportBasedOfReferral,
-    useDownloadPatientExcel
+    useDownloadPatientExcel,
+    useDownloadPatientReportBasedOfFileExcel,
+    useDownloadPatientReportBasedOfReferralExcel
 }

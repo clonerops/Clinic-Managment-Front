@@ -16,6 +16,8 @@ import PatientFileForm from "../patientFile/PatientFileForm";
 import { Formik } from "formik";
 import FormikInput from "../../_cloner/components/inputs/FormikInput";
 import SimpleButton from "../../_cloner/components/buttons/SimpleButton";
+import CustomButton from "../../_cloner/components/buttons/CustomButton";
+import { toAbsoulteUrl } from "../../_cloner/utils/absoluteUrl";
 
 const initialValues: IPatientFilter = {
     firstName: "",
@@ -138,7 +140,9 @@ const PatientList = () => {
                         text="لیست بیماران"
                         typographyTextClassName="text-secondary"
                     />
-                    <SimpleButton text="دانلود خروجی اکسل" btnClassName="!bg-green" onSubmit={handleDownloadExcel} />
+                    <CustomButton onSubmit={handleDownloadExcel} btnClassName="!bg-green">
+                        <img src={toAbsoulteUrl('/pictures/images/excelLogo.png')} width={30} />
+                    </CustomButton>
                 </div>
                 <div className="mt-16">
                     <SimpleTable columns={columns} data={fetchTools?.data || []} />

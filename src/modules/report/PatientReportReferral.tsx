@@ -5,12 +5,14 @@ import SimpleButton from "../../_cloner/components/buttons/SimpleButton"
 import { IPatientReport, IPatientReportBasedOfReferral } from "./core/_models"
 import Typography from "../../_cloner/components/typography/Typography"
 import SimpleTable from "../../_cloner/components/tables/SimpleTable"
-import { useFetchPatienReportBasedOfReferral } from "../patient/core/_hooks"
+import { useDownloadPatientReportBasedOfReferralExcel, useFetchPatienReportBasedOfReferral } from "../patient/core/_hooks"
 import { TableColumnsType, Tag } from "antd"
 import CardWidget from "../../_cloner/components/shared/CardWidget"
 import { useEffect } from "react"
 import Backdrop from "../../_cloner/components/shared/Backdrop"
 import FormikInput from "../../_cloner/components/inputs/FormikInput"
+import CustomButton from "../../_cloner/components/buttons/CustomButton"
+import { toAbsoulteUrl } from "../../_cloner/utils/absoluteUrl"
 
 const initialValues: IPatientReportBasedOfReferral = {
     documentId: null,
@@ -22,6 +24,8 @@ const initialValues: IPatientReportBasedOfReferral = {
 
 const PatientReportReferral = () => {
     const fetchTools = useFetchPatienReportBasedOfReferral()
+    const downloadTools = useDownloadPatientReportBasedOfReferralExcel()
+
     useEffect(() => {
         fetchTools.mutate({})
     }, [])
@@ -64,10 +68,14 @@ const PatientReportReferral = () => {
 
         },
     ];
+    const handleDownloadExcel = () => {
+        downloadTools.mutate({ fromDate: "1", toDate: "1" })
+    }
 
     return (
         <>
             {fetchTools.isPending && <Backdrop loading={fetchTools.isPending} />}
+            {downloadTools.isPending && <Backdrop loading={downloadTools.isPending} />}
             <CardWidget>
                 <Formik initialValues={initialValues} onSubmit={onFilter}>
                     {({ values }) => <form className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-4">
@@ -81,12 +89,19 @@ const PatientReportReferral = () => {
                         </div>
                     </form>}
                 </Formik>
-                <Typography
-                    type="h3"
-                    text="گزارش تعداد مراجعات"
-                    typographyTextClassName="text-secondary"
-                />
+                <div className="flex justify-between items-center mt-2">
+                    <Typography
+                        type="h3"
+                        text="لیست بیماران"
+                        typographyTextClassName="text-secondary"
+                    />
+                </div>
                 <div className="mt-16">
+                    <div className="flex justify-end items-end">
+                        <CustomButton onSubmit={handleDownloadExcel} btnClassName="!bg-green">
+                            <img src={toAbsoulteUrl('/pictures/images/excelLogo.png')} width={30} />
+                        </CustomButton>
+                    </div>
                     <SimpleTable columns={columns} data={fetchTools?.data || []} />
                 </div>
 

@@ -1,12 +1,19 @@
 import { useParams } from "react-router-dom";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import moment from "moment-jalaali";
 import { useFetchPatientFile } from "../patientFile/core/_hooks";
+import { useFetchPatient } from "../patient/core/_hooks";
 
 const FacialFormPrint = () => {
-    const {id}: any = useParams()
-    const patientDocument: any = useFetchPatientFile()
+    const { patientId, id }: any = useParams()
+    const patient = useFetchPatient()
+    const patientDocument = useFetchPatientFile()
+
+    useEffect(() => {
+        patient.mutate(patientId)
+        patientDocument.mutate(id)
+    }, [patientId, id])
+
     const printComponentRef = useRef<HTMLDivElement | null>(null);
 
     const handlePrint: any = useReactToPrint({
@@ -110,6 +117,8 @@ const FacialFormPrint = () => {
         {id: 8, title: "سوزش یا التهاب، پس از اصلاح"},
         {id: 12, title: "سابقه تبخال"},
         {id: 13, title: "IUD"},
+        {id: 15, title: "اجازه استفاده از تصویرم برای تولید محتوا میدهم"},
+
     ]
 
     const TakingMedicationList = [
@@ -133,10 +142,13 @@ const FacialFormPrint = () => {
         {id: 8, title: "برداشتن خال و زگیل"},
     ]
 
-    if(patientDocument.isLoading) {
+    if(patientDocument.isPending) {
         return <span>درحال بارگزاری ....</span>
     }
 
+    if(patient.isPending) {
+        return <span>درحال بارگزاری ....</span>
+    }
 
   return (
     <>
@@ -147,29 +159,29 @@ const FacialFormPrint = () => {
 
             <div className="border-[1px] border-b-0 px-4 py-1 border-black">
                 <div className="grid grid-cols-4">
-                    <RendertextValue title="نام" value={`${patientDocument?.data?.data?.patient?.firstName} `} />
-                    <RendertextValue title="نام خانوادگی" value={patientDocument?.data?.data?.patient?.lastName} />
-                    <RendertextValue title="تاریخ تولد" value={moment(patientDocument?.data?.data?.patient?.birthDate).format('jYYYY/jMM/jDD')} />
-                    <RendertextValue title="شماره پرونده" value={patientDocument?.data?.data?.documentCode} />
+                    <RendertextValue title="نام" value={`${patient.data?.firstName} `} />
+                    <RendertextValue title="نام خانوادگی" value={patient.data?.lastName} />
+                    <RendertextValue title="تاریخ تولد" value={patient?.data?.birthDate} />
+                    <RendertextValue title="شماره پرونده" value={patientDocument?.data?.fileCode} />
                 </div>
             </div>
             <div className="border-[1px] border-b-0 px-4 py-1 border-black">
                 <div className="grid grid-cols-4">
-                    <RendertextValue title="شغل" value={patientDocument?.data?.data?.patient?.job} />
-                    <RendertextValue title="تحصیلات" value={patientDocument?.data?.data?.patient?.education} />
-                    <RendertextValue title="وضعیت تاهل" value={patientDocument?.data?.data?.patient?.maritalStatus == 2 ? " متاهل " : "مجرد"} />
-                    <RendertextValue title="معرف" value={patientDocument?.data?.data?.patient?.representative} />
+                    <RendertextValue title="شغل" value={patient.data?.job} />
+                    <RendertextValue title="تحصیلات" value={patient.data?.education} />
+                    <RendertextValue title="وضعیت تاهل" value={patient.data?.maritalStatus == 2 ? " متاهل " : "مجرد"} />
+                    <RendertextValue title="معرف" value={patient.data?.representative} />
                 </div>
             </div>
             <div className="border-[1px] border-b-0 border-black">
                 <div className="grid grid-cols-4 ">
                     <div className="col-span-3 border-l-[1px] border-black px-4 py-1">
-                        <RendertextValue title="نشانی" value={patientDocument?.data?.data?.patient?.address} />
+                        <RendertextValue title="نشانی" value={patient.data?.address} />
                     </div>
                     <div className="flex gap-y-2 flex-col px-4 py-1">
-                        <RendertextValue title="تلفن همراه" value={patientDocument?.data?.data?.patient?.mobile} />
-                        <RendertextValue title="تلفن منزل" value={patientDocument?.data?.data?.patient?.tel} />
-                        <RendertextValue title="شماره واتساپ" value={patientDocument?.data?.data?.patient?.mobile2} />
+                        <RendertextValue title="تلفن همراه" value={patient.data?.mobile} />
+                        <RendertextValue title="تلفن منزل" value={patient.data?.tel} />
+                        <RendertextValue title="شماره واتساپ" value={patient.data?.mobile2} />
                     </div>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import FormikInput from "../../_cloner/components/inputs/FormikInput"
-import { Formik } from "formik"
+import { Formik, FormikProps } from "formik"
 import SimpleButton from "../../_cloner/components/buttons/SimpleButton"
 import FormikDescription from "../../_cloner/components/inputs/FormikDescription"
 import Typography from "../../_cloner/components/typography/Typography"
@@ -9,7 +9,7 @@ import { toastify } from "../../_cloner/utils/toast"
 import Backdrop from "../../_cloner/components/shared/Backdrop"
 import CardWidget from "../../_cloner/components/shared/CardWidget"
 import { UseMutationResult } from "@tanstack/react-query"
-import { FC } from "react"
+import { FC, useRef } from "react"
 
 const initialValues: IDocument = {
     name: "",
@@ -21,7 +21,9 @@ interface IProps {
     onClose: () => void
 }
 
-const DocumentForm:FC<IProps> = ({fetchDocuments, onClose}) => {
+const DocumentForm: FC<IProps> = ({ fetchDocuments, onClose }) => {
+    const formikRef: any = useRef<FormikProps<any>>()
+
     const createTools = useCreateNewDocument()
 
     const onSubmit = (values: IDocument) => {
@@ -34,6 +36,7 @@ const DocumentForm:FC<IProps> = ({fetchDocuments, onClose}) => {
                 }
                 fetchDocuments.mutate()
                 onClose()
+                formikRef.current?.resetForm()
             }
         })
     }
@@ -47,7 +50,7 @@ const DocumentForm:FC<IProps> = ({fetchDocuments, onClose}) => {
                     text="ثبت نوع پرونده جدید"
                     typographyTextClassName="text-secondary"
                 />
-                <Formik initialValues={initialValues} onSubmit={onSubmit}>
+                <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={onSubmit}>
                     {({ handleSubmit }) => <form className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-16" onSubmit={handleSubmit}>
                         <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="name" label="نام پرونده" />
                         <div className="lg:col-span-2">
