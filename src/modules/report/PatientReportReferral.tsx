@@ -1,4 +1,4 @@
-import { Formik } from "formik"
+import { Formik, FormikProps } from "formik"
 import FormikDocuments from "../../_cloner/components/inputs/FormikDocuments"
 import FormikDatepicker from "../../_cloner/components/inputs/FormikDatepicker"
 import SimpleButton from "../../_cloner/components/buttons/SimpleButton"
@@ -8,7 +8,7 @@ import SimpleTable from "../../_cloner/components/tables/SimpleTable"
 import { useDownloadPatientReportBasedOfReferralExcel, useFetchPatienReportBasedOfReferral } from "../patient/core/_hooks"
 import { TableColumnsType, Tag } from "antd"
 import CardWidget from "../../_cloner/components/shared/CardWidget"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import Backdrop from "../../_cloner/components/shared/Backdrop"
 import FormikInput from "../../_cloner/components/inputs/FormikInput"
 import CustomButton from "../../_cloner/components/buttons/CustomButton"
@@ -23,6 +23,8 @@ const initialValues: IPatientReportBasedOfReferral = {
 }
 
 const PatientReportReferral = () => {
+    const formikRef: any = useRef<FormikProps<any>>()
+
     const fetchTools = useFetchPatienReportBasedOfReferral()
     const downloadTools = useDownloadPatientReportBasedOfReferralExcel()
 
@@ -69,7 +71,7 @@ const PatientReportReferral = () => {
         },
     ];
     const handleDownloadExcel = () => {
-        downloadTools.mutate({ fromDate: "1", toDate: "1" })
+        downloadTools.mutate(formikRef.current?.values)
     }
 
     return (
@@ -77,7 +79,7 @@ const PatientReportReferral = () => {
             {fetchTools.isPending && <Backdrop loading={fetchTools.isPending} />}
             {downloadTools.isPending && <Backdrop loading={downloadTools.isPending} />}
             <CardWidget>
-                <Formik initialValues={initialValues} onSubmit={onFilter}>
+                <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={onFilter}>
                     {({ values }) => <form className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-4">
                         <FormikDocuments name="documentId" label="نوع پرونده" hasLabel isRequired />
                         <FormikInput name="fromReferral" label="تعداد مراجعه از " hasLabel placeholder="" type="number" />

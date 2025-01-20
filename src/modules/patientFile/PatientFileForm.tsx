@@ -15,6 +15,8 @@ import { IPatient, IPatientFilter } from "../patient/core/_models"
 import FormikDoctors from "../../_cloner/components/inputs/FormikDoctors"
 import FormikDatepicker from "../../_cloner/components/inputs/FormikDatepicker"
 import moment from "moment-jalaali"
+import { Link } from "react-router-dom"
+import { DocumentEnum } from "../../_cloner/utils/Enums"
 
 const initialValues: IPatientFile = {
     fileCode: "",
@@ -52,12 +54,10 @@ const PatientFileForm: FC<IProps> = ({ fetchPatients, onClose, patient }) => {
                     toastify("error", response.message)
                 }
                 fetchPatients?.mutate({})
-                onClose()
-                formikRef.current?.resetForm()
             }
         })
     }
-
+    
     return (
         <>
             {createTools.isPending && <Backdrop loading={createTools.isPending} />}
@@ -78,9 +78,16 @@ const PatientFileForm: FC<IProps> = ({ fetchPatients, onClose, patient }) => {
                         <div className="lg:col-span-3">
                             <FormikDescription placeholder="" type="text" hasLabel={true} name="description" label="توضیحات" />
                         </div>
-                        <div className="flex justify-end items-end lg:col-span-3">
+                        <div className="flex justify-end createTools.datas-end lg:col-span-3">
                             <SimpleButton onSubmit={() => handleSubmit()} text="ثبت پرونده برای بیمار" btnTextClassName="!py-4" />
                         </div>
+                        {createTools.data?.isSuccedded &&
+                            <div className="flex justify-end items-end lg:col-span-3">
+                                <Link target="_blank" to={`/${createTools.data?.data?.documentId === DocumentEnum.Lazer ? "lazer-form-print" : createTools.data?.data?.documentId === DocumentEnum.Midwifery ? "mid-wirfy-form-print" : createTools.data?.data?.documentId === DocumentEnum.Facial ? "facial-form-print" : "skin-form-print"}/${createTools.data?.data?.id}/${createTools.data?.data?.patientId}`} className=''>
+                                    <SimpleButton onSubmit={() => handleSubmit()} text="پرینت پرونده" btnClassName="!bg-yellow" btnTextClassName="!py-4" />
+                                </Link>
+                            </div>
+                        }
                     </form>}
                 </Formik>
             </CardWidget>
