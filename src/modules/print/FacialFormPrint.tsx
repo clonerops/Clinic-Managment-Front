@@ -14,13 +14,11 @@ const FacialFormPrint = () => {
         patientDocument.mutate(id)
     }, [patientId, id])
 
-    const printComponentRef = useRef<HTMLDivElement | null>(null);
+    const printComponentRef = useRef<HTMLDivElement | null>(null); 
+    const handlePrint = useReactToPrint({ 
+        content: () => printComponentRef.current
+    });
 
-    const handlePrint: any = useReactToPrint({
-        content: (): HTMLDivElement | null => {
-            return printComponentRef.current;
-        }
-    } as any);
 
 
 
@@ -152,7 +150,7 @@ const FacialFormPrint = () => {
 
   return (
     <>
-        <button className="select-none bg-green-500 text-black px-16 py-2" onClick={handlePrint}>پرینت</button>
+        <button className="select-none bg-green-500 text-black px-16 py-2" onClick={() => handlePrint()}>پرینت</button>
         <div ref={printComponentRef} style={{direction: "rtl"}}>
             <h2 className="select-none text-center font-bold text-2xl">فرم رضایت انجام خدمات فیشیال</h2>
             <span className="select-none font-bold text-lg">تاریخ : .........</span>
@@ -257,11 +255,11 @@ const FacialFormPrint = () => {
                 )}
             </div>
             <div className="select-none grid grid-cols-1 mt-4">
-                <p>اینجانب صحت اطالعات درج شده را تایید نموده و همچنین تایید میکنم که در خصوص موارد منع استفاده ، روند درمان ،
-                    عواقب احتمالی ،پیگیریهای آینده درمان ، مزایا و معایب و روشهای موجود کامال مطلع شده و نحوه انجام نیز مورد تایید
-                    اینحانب میباشد. بدین وسیله عوارض احتمالی در زمان طول درمان را نیز پذیرفته و از ایشان اعالم برائت میکنم. اطالعات
-                    این فرم محرمانه تلقی گردیده و اینجانب موافقت خود را با نگهداری این اطالعات جهت درج در سوابق این مرکز و
-                    پیگیریهای بعدی ، اعالم مینمایم.
+                <p>اینجانب صحت اطلاعات درج شده را تایید نموده و همچنین تایید میکنم که در خصوص موارد منع استفاده ، روند درمان ،
+                    عواقب احتمالی ،پیگیریهای آینده درمان ، مزایا و معایب و روشهای موجود کامل مطلع شده و نحوه انجام نیز مورد تایید
+                    اینحانب میباشد. بدین وسیله عوارض احتمالی در زمان طول درمان را نیز پذیرفته و از ایشان اعلام برائت میکنم. اطلاعات
+                    این فرم محرمانه تلقی گردیده و اینجانب موافقت خود را با نگهداری این اطلاعات جهت درج در سوابق این مرکز و
+                    پیگیریهای بعدی ، اعلام مینمایم.
                 </p>
             </div>
             <div className="select-none flex justify-around items-center mt-4">

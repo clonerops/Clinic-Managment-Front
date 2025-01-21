@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import { useReactToPrint } from "react-to-print";
+import { useReactToPrint} from "react-to-print";
 import { useFetchPatientFile } from "../patientFile/core/_hooks";
 import { useFetchPatient } from "../patient/core/_hooks";
 
@@ -14,9 +14,10 @@ const SkinForm = () => {
         patientDocument.mutate(id)
     }, [patientId, id])
 
-    const printComponentRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
-
-    const handlePrint = useReactToPrint({ printComponentRef });
+    const printComponentRef = useRef<HTMLDivElement>(null); 
+    const handlePrint = useReactToPrint({ 
+        content: () => printComponentRef.current
+    });
 
 
     const RendertextValue = (props: {title: string, value: any}) => {
@@ -102,7 +103,7 @@ const SkinForm = () => {
 
   return (
     <>
-        <button className="select-none bg-green-500 text-black px-16 py-2" onClick={handlePrint}>پرینت</button>
+        <button className="bg-green-500 text-black px-16 py-2" onClick={() => handlePrint()}>پرینت</button>
         <div ref={printComponentRef} style={{direction: "rtl"}}>
             <h2 className="select-none text-center font-bold text-2xl">فرم رضایت انجام خدمات پوست و مو</h2>
             <span className="select-none font-bold text-lg">تاریخ : .........</span>
@@ -167,12 +168,12 @@ const SkinForm = () => {
                 )}
             </div>
             <div className="select-none grid grid-cols-1 mt-4">
-                <p>اینجانب تایید می نمایم رضایت نامه را با دقت خوانده و درک نموده ام و پزشک به کلیه سوال های اینجانب به صورت شفاف
+                <p className="text-sm">اینجانب تایید می نمایم رضایت نامه را با دقت خوانده و درک نموده ام و پزشک به کلیه سوال های اینجانب به صورت شفاف
                     پاسخ داده و زمان کافی برای اخذ این تصمیم را داشته ام همچنین تایید می کنم که در خصوص موارد منع استفاده ، روند
-                    درمان ، عواقب احتمالی ،پیگیری های آینده درمان ، مزایا و معایب و روش های موجود کامال مطلع شده ام .همچنین نحوه
-                    انجام نیز مورد تایید اینحانب می باشد و بدین وسیله عوارض احتمالی در زمان طول درمان را نیز پذیرفته و از ایشان اعالم
-                    برائت می کنم. اطالعات این فرم محرمانه تلقی می گردد و اینجانب موافقت خود را با نگهداری این اطالعات جهت درج در
-                    سوابق این مرکز و پیگیری های بعدی ، اعالم مینمایم
+                    درمان ، عواقب احتمالی ،پیگیری های آینده درمان ، مزایا و معایب و روش های موجود کامل مطلع شده ام .همچنین نحوه
+                    انجام نیز مورد تایید اینحانب می باشد و بدین وسیله عوارض احتمالی در زمان طول درمان را نیز پذیرفته و از ایشان اعلام
+                    برائت می کنم. اطلاعات این فرم محرمانه تلقی می گردد و اینجانب موافقت خود را با نگهداری این اطلاعات جهت درج در
+                    سوابق این مرکز و پیگیری های بعدی ، اعلام مینمایم
                 </p>
             </div>
             <div className="select-none flex justify-around items-center mt-4">
@@ -186,57 +187,6 @@ const SkinForm = () => {
                     <span className="select-none font-bold">امضا متقاضی</span>
                 </div>
             </div>
-            {/* <br /> */}
-            {/* <div className="select-none mt-16">
-                <table className="select-none !w-full !border-[1px] !border-black">
-                    <thead>
-                        <tr>
-                            <th className="select-none !border-[1px] !border-black text-center !font-bold py-4 w-[15%]">جلسه</th>
-                            <th className="select-none !border-[1px] !border-black text-center !font-bold py-4 w-[15%]">تاریخ</th>
-                            <th className="select-none !border-[1px] !border-black text-center !font-bold py-4 w-[50%]">توضیحات</th>
-                            <th className="select-none !border-[1px] !border-black text-center !font-bold py-4 w-[25%]">مهر و امضای پزشک</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr className="select-none !border-[1px] !border-black">
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td ></td>
-                    </tr> 
-                    <tr className="select-none !border-[1px] !border-black">
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td></td>
-                    </tr> 
-                    <tr className="select-none !border-[1px] !border-black">
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td></td>
-                    </tr> 
-                    <tr className="select-none !border-[1px] !border-black">
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td></td>
-                    </tr> 
-                    <tr className="select-none !border-[1px] !border-black">
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td></td>
-                    </tr> 
-                    <tr className="select-none !border-[1px] !border-black">
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td className="select-none border-l-[1px] border-black py-12"></td>
-                        <td></td>
-                    </tr> 
-                    </tbody>
-                </table>
-            </div> */}
 
         </div>
     </>
