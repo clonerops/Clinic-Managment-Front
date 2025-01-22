@@ -103,7 +103,7 @@ const FacialFormPrint = () => {
     const surveyQuestion = [
         {id: 1, title: "شکستگی عمیق استخوانی یا پالتین"},
         {id: 2, title: "دیابت"},
-        {id: 3, title: "انواع پروتز و گوتزهای دندانی و ایمپلنت"},
+        {id: 3, title: "انواع پروتز دندانی و ایمپلنت"},
         {id: 4, title: "سندرم تخمدان پلی کیستیک"},
         {id: 5, title: "اگزما یا پسوریازیس"},
         {id: 14, title: "بارداری و شیردهی"},
@@ -129,16 +129,16 @@ const FacialFormPrint = () => {
         {id: 7, title: "اعصاب"},
         {id: 8, title: "هیچکدام"},
     ]
-    const ServicesList = [
-        {id: 1, title: "هایفوتراپی"},
-        {id: 2, title: "پلاژن تراپی"},
-        {id: 3, title: "مزوتراپی"},
-        {id: 4, title: "میکرونیدلینگ"},
-        {id: 5, title: "تزریق بوتاکس"},
-        {id: 6, title: "تزریق ژل"},
-        {id: 7, title: "لیفت با نخ"},
-        {id: 8, title: "برداشتن خال و زگیل"},
-    ]
+    // const ServicesList = [
+    //     {id: 1, title: "هایفوتراپی"},
+    //     {id: 2, title: "پلاژن تراپی"},
+    //     {id: 3, title: "مزوتراپی"},
+    //     {id: 4, title: "میکرونیدلینگ"},
+    //     {id: 5, title: "تزریق بوتاکس"},
+    //     {id: 6, title: "تزریق ژل"},
+    //     {id: 7, title: "لیفت با نخ"},
+    //     {id: 8, title: "برداشتن خال و زگیل"},
+    // ]
 
     if(patientDocument.isPending) {
         return <span>درحال بارگزاری ....</span>
@@ -244,7 +244,7 @@ const FacialFormPrint = () => {
                     <RenderTakingMedication title={item.title} />
                 )}
             </div>
-            <div className="select-none px-4 py-1">
+            {/* <div className="select-none px-4 py-1">
                 <div className="select-none grid grid-cols-1">
                     <span className="select-none font-bold">متقاضی کدام یک از موارد زیر هستید؟</span>
                 </div>
@@ -253,7 +253,7 @@ const FacialFormPrint = () => {
                 {ServicesList.map((item) => 
                     <RenderTakingMedication title={item.title} />
                 )}
-            </div>
+            </div> */}
             <div className="select-none grid grid-cols-1 mt-4">
                 <p>اینجانب صحت اطلاعات درج شده را تایید نموده و همچنین تایید میکنم که در خصوص موارد منع استفاده ، روند درمان ،
                     عواقب احتمالی ،پیگیریهای آینده درمان ، مزایا و معایب و روشهای موجود کامل مطلع شده و نحوه انجام نیز مورد تایید
