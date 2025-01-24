@@ -14,6 +14,7 @@ import FacialFormPrint from "../modules/print/FacialFormPrint";
 import ReferralList from "../modules/referral/ReferralList";
 import PatientReport from "../modules/report/PatientReport";
 import PatientReportReferral from "../modules/report/PatientReportReferral";
+import MidWirfyFormPrint1 from "../modules/print/MidWirfyFormPrint1";
 
 const Layout = React.lazy(() => import("../modules/layout/Layout"));
 
@@ -31,6 +32,7 @@ export const routes: RouteProps[] = [
     { path: "skin-form-print/:id/:patientId", element: <SkinForm /> },
     { path: "lazer-form-print/:id/:patientId", element: <LazerFormPrint /> },
     { path: "mid-wirfy-form-print/:id/:patientId", element: <MidWirfyFormPrint /> },
+    { path: "mid-wirfy-form-print1", element: <MidWirfyFormPrint1 /> },
     { path: "facial-form-print/:id/:patientId", element: <FacialFormPrint /> },
     
 
