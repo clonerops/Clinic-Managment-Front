@@ -3,7 +3,7 @@ import GridEditButton from "../../_cloner/components/buttons/GridEditButton";
 import CardWidget from "../../_cloner/components/shared/CardWidget"
 import Typography from "../../_cloner/components/typography/Typography"
 import SimpleTable from "../../_cloner/components/tables/SimpleTable";
-import { useFetchPatiens } from "./core/_hooks";
+import { useDownloadPatientExcel, useFetchPatiens } from "./core/_hooks";
 import { useEffect, useState } from "react";
 import Backdrop from "../../_cloner/components/shared/Backdrop";
 import GridDeleteButton from "../../_cloner/components/buttons/GridDeleteButton";
@@ -16,6 +16,8 @@ import PatientFileForm from "../patientFile/PatientFileForm";
 import { Formik } from "formik";
 import FormikInput from "../../_cloner/components/inputs/FormikInput";
 import SimpleButton from "../../_cloner/components/buttons/SimpleButton";
+import CustomButton from "../../_cloner/components/buttons/CustomButton";
+import { toAbsoulteUrl } from "../../_cloner/utils/absoluteUrl";
 
 const initialValues: IPatientFilter = {
     firstName: "",
@@ -32,6 +34,7 @@ const PatientList = () => {
     const [patientItemDelete, setPatientItemDelete] = useState<IPatient>()
 
     const fetchTools = useFetchPatiens()
+    const downloadTools = useDownloadPatientExcel()
 
     const handleSetPatientItem = (item: IPatient) => {
         setPatientItem(item)
@@ -103,9 +106,14 @@ const PatientList = () => {
         fetchTools.mutate(values)
     }
 
+    const handleDownloadExcel = () => {
+        downloadTools.mutate({ fromDate: "1", toDate: "1" })
+    }
+
     return (
         <>
             {fetchTools.isPending && <Backdrop loading={fetchTools.isPending} />}
+            {downloadTools.isPending && <Backdrop loading={downloadTools.isPending} />}
             <CardWidget>
                 <div className="mb-4">
                     <Collapse
@@ -126,11 +134,16 @@ const PatientList = () => {
                         }]}
                     />
                 </div>
-                <Typography
-                    type="h3"
-                    text="لیست بیماران"
-                    typographyTextClassName="text-secondary"
-                />
+                <div className="flex justify-between items-center">
+                    <Typography
+                        type="h3"
+                        text="لیست بیماران"
+                        typographyTextClassName="text-secondary"
+                    />
+                    <CustomButton onSubmit={handleDownloadExcel} btnClassName="!bg-green">
+                        <img src={toAbsoulteUrl('/pictures/images/excelLogo.png')} width={30} />
+                    </CustomButton>
+                </div>
                 <div className="mt-16">
                     <SimpleTable columns={columns} data={fetchTools?.data || []} />
                 </div>

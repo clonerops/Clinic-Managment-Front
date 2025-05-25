@@ -56,8 +56,10 @@ const FormikDatepicker = forwardRef((props: Props, ref) => {
                     {...validationProps}
                     value={field.value || ""}
                     onChange={handleChange}
+                    highlightToday={false}
                     locale={persian_fa}
                     disabled={disabled}
+                    onOpenPickNewDate={false}
                     calendar={persian}
                     // minDate={minDate} 
                     className={cx("w-full")}

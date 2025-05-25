@@ -1,15 +1,17 @@
-import { Formik } from "formik"
+import { Formik, FormikProps } from "formik"
 import FormikDocuments from "../../_cloner/components/inputs/FormikDocuments"
 import FormikDatepicker from "../../_cloner/components/inputs/FormikDatepicker"
 import SimpleButton from "../../_cloner/components/buttons/SimpleButton"
 import { IPatientReport } from "./core/_models"
 import Typography from "../../_cloner/components/typography/Typography"
 import SimpleTable from "../../_cloner/components/tables/SimpleTable"
-import { useFetchPatienReportBasedOfFile } from "../patient/core/_hooks"
+import { useDownloadPatientReportBasedOfFileExcel, useFetchPatienReportBasedOfFile } from "../patient/core/_hooks"
 import { TableColumnsType, Tag } from "antd"
 import CardWidget from "../../_cloner/components/shared/CardWidget"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import Backdrop from "../../_cloner/components/shared/Backdrop"
+import CustomButton from "../../_cloner/components/buttons/CustomButton"
+import { toAbsoulteUrl } from "../../_cloner/utils/absoluteUrl"
 
 const initialValues: IPatientReport = {
     documentId: null,
@@ -18,7 +20,11 @@ const initialValues: IPatientReport = {
 }
 
 const PatientReport = () => {
+    const formikRef: any = useRef<FormikProps<any>>()
+
     const fetchTools = useFetchPatienReportBasedOfFile()
+    const downloadTools = useDownloadPatientReportBasedOfFileExcel()
+
     useEffect(() => {
         fetchTools.mutate({})
     }, [])
@@ -61,12 +67,16 @@ const PatientReport = () => {
 
         },
     ];
+    const handleDownloadExcel = () => {
+        downloadTools.mutate(formikRef.current?.values)
+    }
 
     return (
         <>
             {fetchTools.isPending && <Backdrop loading={fetchTools.isPending} />}
+            {downloadTools.isPending && <Backdrop loading={downloadTools.isPending} />}
             <CardWidget>
-                <Formik initialValues={initialValues} onSubmit={onFilter}>
+                <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={onFilter}>
                     {({ values }) => <form className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-4">
                         <FormikDocuments name="documentId" label="نوع پرونده" hasLabel />
                         <FormikDatepicker name="fromDate" label="از تاریخ" hasLabel placeholder="" />
@@ -76,12 +86,19 @@ const PatientReport = () => {
                         </div>
                     </form>}
                 </Formik>
-                <Typography
-                    type="h3"
-                    text="گزارش بیماران"
-                    typographyTextClassName="text-secondary"
-                />
+                <div className="flex justify-between items-center mt-2">
+                    <Typography
+                        type="h3"
+                        text="لیست بیماران"
+                        typographyTextClassName="text-secondary"
+                    />
+                </div>
                 <div className="mt-16">
+                    <div className="flex justify-end items-end">
+                        <CustomButton onSubmit={handleDownloadExcel} btnClassName="!bg-green">
+                            <img src={toAbsoulteUrl('/pictures/images/excelLogo.png')} width={30} />
+                        </CustomButton>
+                    </div>
                     <SimpleTable columns={columns} data={fetchTools?.data || []} />
                 </div>
 

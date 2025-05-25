@@ -14,46 +14,44 @@ const FacialFormPrint = () => {
         patientDocument.mutate(id)
     }, [patientId, id])
 
-    const printComponentRef = useRef<HTMLDivElement | null>(null);
+    const printComponentRef = useRef<HTMLDivElement | null>(null); 
+    const handlePrint = useReactToPrint({ 
+        content: () => printComponentRef.current
+    });
 
-    const handlePrint: any = useReactToPrint({
-        content: (): HTMLDivElement | null => {
-            return printComponentRef.current;
-        }
-    } as any);
 
 
 
     const RendertextValue = (props: {title: string, value: any}) => {
         return (
-            <div className="flex items-center gap-x-2">
-                <h4 className="font-bold">{props.title}: </h4>
-                <span>{props.value}</span>
+            <div className="select-none flex items-center gap-x-2">
+                <h4 className="select-none font-bold">{props.title}: </h4>
+                <span className="select-none">{props.value}</span>
             </div>
         )
     }
     const RenderSurvey = (props: {title: string}) => {
         return (
-            <div className="grid border-b-[1px] border-black last:border-0 grid-cols-8">
-                <div className="col-span-6 px-4 py-1">
-                    <h3 className="font-bold">{props.title}</h3>
+            <div className="select-none grid border-b-[1px] border-black last:border-0 grid-cols-8">
+                <div className="select-none col-span-6 px-4 py-1">
+                    <h3 className="select-none font-bold">{props.title}</h3>
                 </div>
-                <div className="border-r-[1px] px-4 py-1 flex flex-row gap-x-2 border-black">
-                    <h3 className="font-bold">بله</h3>
-                    <div className="w-[16px] h-[16px] rounded-full bg-transparent border-[1px] border-black"></div>
+                <div className="select-none border-r-[1px] px-4 py-1 flex flex-row gap-x-2 border-black">
+                    <h3 className="select-none font-bold">بله</h3>
+                    <div className="select-none w-[16px] h-[16px] rounded-full bg-transparent border-[1px] border-black"></div>
                 </div>
-                <div className="border-r-[1px] px-4 py-1 flex flex-row gap-x-2 border-black">
-                    <h3 className="font-bold">خیر</h3>
-                    <div className="w-[16px] h-[16px] rounded-full bg-transparent border-[1px] border-black"></div>
+                <div className="select-none border-r-[1px] px-4 py-1 flex flex-row gap-x-2 border-black">
+                    <h3 className="select-none font-bold">خیر</h3>
+                    <div className="select-none w-[16px] h-[16px] rounded-full bg-transparent border-[1px] border-black"></div>
                 </div>
             </div>
  )
     }
     const RenderTakingMedication = (props: {title: string}) => {
         return (
-                <div className="flex border-r-[1px] border-b-[1px] border-black px-4 py-1">
-                    <h3 className="font-bold">{props.title}</h3>
-                    <div className="w-[16px] h-[16px] rounded-full bg-transparent border-[1px] border-black"></div>
+                <div className="select-none flex border-r-[1px] border-b-[1px] border-black px-4 py-1">
+                    <h3 className="select-none font-bold">{props.title}</h3>
+                    <div className="select-none w-[16px] h-[16px] rounded-full bg-transparent border-[1px] border-black"></div>
                 </div>
  )
     }
@@ -105,7 +103,7 @@ const FacialFormPrint = () => {
     const surveyQuestion = [
         {id: 1, title: "شکستگی عمیق استخوانی یا پالتین"},
         {id: 2, title: "دیابت"},
-        {id: 3, title: "انواع پروتز و گوتزهای دندانی و ایمپلنت"},
+        {id: 3, title: "انواع پروتز دندانی و ایمپلنت"},
         {id: 4, title: "سندرم تخمدان پلی کیستیک"},
         {id: 5, title: "اگزما یا پسوریازیس"},
         {id: 14, title: "بارداری و شیردهی"},
@@ -131,16 +129,16 @@ const FacialFormPrint = () => {
         {id: 7, title: "اعصاب"},
         {id: 8, title: "هیچکدام"},
     ]
-    const ServicesList = [
-        {id: 1, title: "هایفوتراپی"},
-        {id: 2, title: "پلاژن تراپی"},
-        {id: 3, title: "مزوتراپی"},
-        {id: 4, title: "میکرونیدلینگ"},
-        {id: 5, title: "تزریق بوتاکس"},
-        {id: 6, title: "تزریق ژل"},
-        {id: 7, title: "لیفت با نخ"},
-        {id: 8, title: "برداشتن خال و زگیل"},
-    ]
+    // const ServicesList = [
+    //     {id: 1, title: "هایفوتراپی"},
+    //     {id: 2, title: "پلاژن تراپی"},
+    //     {id: 3, title: "مزوتراپی"},
+    //     {id: 4, title: "میکرونیدلینگ"},
+    //     {id: 5, title: "تزریق بوتاکس"},
+    //     {id: 6, title: "تزریق ژل"},
+    //     {id: 7, title: "لیفت با نخ"},
+    //     {id: 8, title: "برداشتن خال و زگیل"},
+    // ]
 
     if(patientDocument.isPending) {
         return <span>درحال بارگزاری ....</span>
@@ -152,33 +150,33 @@ const FacialFormPrint = () => {
 
   return (
     <>
-        <button className="bg-green-500 text-black px-16 py-2" onClick={handlePrint}>پرینت</button>
+        <button className="select-none bg-green-500 text-black px-16 py-2" onClick={() => handlePrint()}>پرینت</button>
         <div ref={printComponentRef} style={{direction: "rtl"}}>
-            <h2 className="text-center font-bold text-2xl">فرم رضایت انجام خدمات فیشیال</h2>
-            <span className="font-bold text-lg">تاریخ : .........</span>
+            <h2 className="select-none text-center font-bold text-2xl">{`فرم رضایت انجام خدمات ${patientDocument?.data?.documentName}`}</h2>
+            <span className="select-none font-bold text-lg">تاریخ : .........</span>
 
-            <div className="border-[1px] border-b-0 px-4 py-1 border-black">
-                <div className="grid grid-cols-4">
+            <div className="select-none border-[1px] border-b-0 px-4 py-1 border-black">
+                <div className="select-none grid grid-cols-4">
                     <RendertextValue title="نام" value={`${patient.data?.firstName} `} />
                     <RendertextValue title="نام خانوادگی" value={patient.data?.lastName} />
                     <RendertextValue title="تاریخ تولد" value={patient?.data?.birthDate} />
                     <RendertextValue title="شماره پرونده" value={patientDocument?.data?.fileCode} />
                 </div>
             </div>
-            <div className="border-[1px] border-b-0 px-4 py-1 border-black">
-                <div className="grid grid-cols-4">
+            <div className="select-none border-[1px] border-b-0 px-4 py-1 border-black">
+                <div className="select-none grid grid-cols-4">
                     <RendertextValue title="شغل" value={patient.data?.job} />
                     <RendertextValue title="تحصیلات" value={patient.data?.education} />
                     <RendertextValue title="وضعیت تاهل" value={patient.data?.maritalStatus == 2 ? " متاهل " : "مجرد"} />
                     <RendertextValue title="معرف" value={patient.data?.representative} />
                 </div>
             </div>
-            <div className="border-[1px] border-b-0 border-black">
-                <div className="grid grid-cols-4 ">
-                    <div className="col-span-3 border-l-[1px] border-black px-4 py-1">
+            <div className="select-none border-[1px] border-b-0 border-black">
+                <div className="select-none grid grid-cols-4 ">
+                    <div className="select-none col-span-3 border-l-[1px] border-black px-4 py-1">
                         <RendertextValue title="نشانی" value={patient.data?.address} />
                     </div>
-                    <div className="flex gap-y-2 flex-col px-4 py-1">
+                    <div className="select-none flex gap-y-2 flex-col px-4 py-1">
                         <RendertextValue title="تلفن همراه" value={patient.data?.mobile} />
                         <RendertextValue title="تلفن منزل" value={patient.data?.tel} />
                         <RendertextValue title="شماره واتساپ" value={patient.data?.mobile2} />
@@ -186,148 +184,148 @@ const FacialFormPrint = () => {
                 </div>
             </div>
 
-            <div className="border-[1px] border-b-0 px-4 py-1 border-black">
-                <div className="grid grid-cols-1">
-                    <span className="font-bold">لطفا تیپ پوستی خود را مشخص نمائید.</span>
+            <div className="select-none border-[1px] border-b-0 px-4 py-1 border-black">
+                <div className="select-none grid grid-cols-1">
+                    <span className="select-none font-bold">لطفا تیپ پوستی خود را مشخص نمائید.</span>
                 </div>
             </div>
-            <div className="border-t-[1px] border-l-[1px] border-black grid grid-cols-3">
+            <div className="select-none border-t-[1px] border-l-[1px] border-black grid grid-cols-3">
                 {skinTips.map((item) => 
                     <RenderTakingMedication title={item.title} />
                 )}
             </div>
-            <div className="border-[1px] border-b-0 border-t-0 px-4 py-1 border-black">
-                <div className="grid grid-cols-1">
-                    <span className="font-bold">کدام یک از محصولات زیر را به صورت مرتب مصرف می کنید؟</span>
+            <div className="select-none border-[1px] border-b-0 border-t-0 px-4 py-1 border-black">
+                <div className="select-none grid grid-cols-1">
+                    <span className="select-none font-bold">کدام یک از محصولات زیر را به صورت مرتب مصرف می کنید؟</span>
                 </div>
             </div>
-            <div className="border-t-[1px] border-l-[1px] border-black grid grid-cols-4">
+            <div className="select-none border-t-[1px] border-l-[1px] border-black grid grid-cols-4">
                 {usedProducts.map((item) => 
                     <RenderTakingMedication title={item.title} />
                 )}
             </div>
-            <div className="border-[1px] border-b-0 border-t-0 px-4 py-1 border-black">
-                <div className="grid grid-cols-1">
-                    <span className="font-bold">کدام یک از حاالت زیر را روی پوست صورت خود تجربه کرده اید؟</span>
+            <div className="select-none border-[1px] border-b-0 border-t-0 px-4 py-1 border-black">
+                <div className="select-none grid grid-cols-1">
+                    <span className="select-none font-bold">کدام یک از حاالت زیر را روی پوست صورت خود تجربه کرده اید؟</span>
                 </div>
             </div>
-            <div className="border-t-[1px] border-l-[1px] border-black">
+            <div className="select-none border-t-[1px] border-l-[1px] border-black">
                 {skinState.map((item) => 
                     <RenderTakingMedication title={item.title} />
                 )}
             </div>
-            <div className="border-[1px] border-b-0 border-t-0 px-4 py-1 border-black">
-                <div className="grid grid-cols-1">
-                    <span className="font-bold">کدام یک از موارد زیر نگرانی اصلی شما در مورد پوست صورتتان است؟</span>
+            <div className="select-none border-[1px] border-b-0 border-t-0 px-4 py-1 border-black">
+                <div className="select-none grid grid-cols-1">
+                    <span className="select-none font-bold">کدام یک از موارد زیر نگرانی اصلی شما در مورد پوست صورتتان است؟</span>
                 </div>
             </div>
-            <div className="border-t-[1px] border-l-[1px] border-black grid grid-cols-2">
+            <div className="select-none border-t-[1px] border-l-[1px] border-black grid grid-cols-2">
                 {aboutWorriedPatients.map((item) => 
                     <RenderTakingMedication title={item.title} />
                 )}
             </div>
-            <div className="border-[1px] border-b-0 px-4 py-1 border-black">
-                <div className="grid grid-cols-1">
-                    <span className="font-bold">در صورت مبتلا بودن به هریک از بیماری های زیر مشخص کنید</span>
+            <div className="select-none border-[1px] border-b-0 px-4 py-1 border-black">
+                <div className="select-none grid grid-cols-1">
+                    <span className="select-none font-bold">در صورت مبتلا بودن به هریک از بیماری های زیر مشخص کنید</span>
                 </div>
             </div>
-            <div className="border-[1px] border-black">
+            <div className="select-none border-[1px] border-black">
                 {surveyQuestion.map((item) => 
                     <RenderSurvey title={item.title} />
                 )}
             </div>
-            <div className="px-4 py-1">
-                <div className="grid grid-cols-1">
-                    <span className="font-bold">کدام یک از داروهای زیر را مصرف می کنید؟</span>
+            <div className="select-none px-4 py-1">
+                <div className="select-none grid grid-cols-1">
+                    <span className="select-none font-bold">کدام یک از داروهای زیر را مصرف می کنید؟</span>
                 </div>
             </div>
-            <div className="border-t-[1px] border-l-[1px] border-black grid grid-cols-4">
+            <div className="select-none border-t-[1px] border-l-[1px] border-black grid grid-cols-4">
                 {TakingMedicationList.map((item) => 
                     <RenderTakingMedication title={item.title} />
                 )}
             </div>
-            <div className="px-4 py-1">
-                <div className="grid grid-cols-1">
-                    <span className="font-bold">متقاضی کدام یک از موارد زیر هستید؟</span>
+            {/* <div className="select-none px-4 py-1">
+                <div className="select-none grid grid-cols-1">
+                    <span className="select-none font-bold">متقاضی کدام یک از موارد زیر هستید؟</span>
                 </div>
             </div>
-            <div className="border-t-[1px] border-l-[1px] border-black grid grid-cols-4">
+            <div className="select-none border-t-[1px] border-l-[1px] border-black grid grid-cols-4">
                 {ServicesList.map((item) => 
                     <RenderTakingMedication title={item.title} />
                 )}
-            </div>
-            <div className="grid grid-cols-1 mt-4">
-                <p>اینجانب صحت اطالعات درج شده را تایید نموده و همچنین تایید میکنم که در خصوص موارد منع استفاده ، روند درمان ،
-                    عواقب احتمالی ،پیگیریهای آینده درمان ، مزایا و معایب و روشهای موجود کامال مطلع شده و نحوه انجام نیز مورد تایید
-                    اینحانب میباشد. بدین وسیله عوارض احتمالی در زمان طول درمان را نیز پذیرفته و از ایشان اعالم برائت میکنم. اطالعات
-                    این فرم محرمانه تلقی گردیده و اینجانب موافقت خود را با نگهداری این اطالعات جهت درج در سوابق این مرکز و
-                    پیگیریهای بعدی ، اعالم مینمایم.
+            </div> */}
+            <div className="select-none grid grid-cols-1 mt-4">
+                <p>اینجانب صحت اطلاعات درج شده را تایید نموده و همچنین تایید میکنم که در خصوص موارد منع استفاده ، روند درمان ،
+                    عواقب احتمالی ،پیگیریهای آینده درمان ، مزایا و معایب و روشهای موجود کامل مطلع شده و نحوه انجام نیز مورد تایید
+                    اینحانب میباشد. بدین وسیله عوارض احتمالی در زمان طول درمان را نیز پذیرفته و از ایشان اعلام برائت میکنم. اطلاعات
+                    این فرم محرمانه تلقی گردیده و اینجانب موافقت خود را با نگهداری این اطلاعات جهت درج در سوابق این مرکز و
+                    پیگیریهای بعدی ، اعلام مینمایم.
                 </p>
             </div>
-            <div className="flex justify-around items-center mt-4">
+            <div className="select-none flex justify-around items-center mt-4">
                 <div>
-                    <span className="font-bold">نام و نام خانوادگی</span>
+                    <span className="select-none font-bold">نام و نام خانوادگی</span>
                 </div>
                 <div>
-                    <span className="font-bold">تاریخ</span>
+                    <span className="select-none font-bold">تاریخ</span>
                 </div>
                 <div>
-                    <span className="font-bold">امضا متقاضی</span>
+                    <span className="select-none font-bold">امضا متقاضی</span>
                 </div>
             </div>
             {/* <br />
-            <div className="mt-16">
-                <table className="!w-full !border-[1px] !border-black">
+            <div className="select-none mt-16">
+                <table className="select-none !w-full !border-[1px] !border-black">
                     <thead>
                         <tr>
-                            <th className="!border-[1px] !border-black text-center !font-bold py-4">تاریخ</th>
-                            <th className="!border-[1px] !border-black text-center !font-bold py-4">وضعیت پوست</th>
-                            <th className="!border-[1px] !border-black text-center !font-bold py-4">اقدامات انجام شده</th>
-                            <th className="!border-[1px] !border-black text-center !font-bold py-4">اتوصیه های لازم</th>
-                            <th className="!border-[1px] !border-black text-center !font-bold py-4">تاریخ مراجعه بعدی</th>
+                            <th className="select-none !border-[1px] !border-black text-center !font-bold py-4">تاریخ</th>
+                            <th className="select-none !border-[1px] !border-black text-center !font-bold py-4">وضعیت پوست</th>
+                            <th className="select-none !border-[1px] !border-black text-center !font-bold py-4">اقدامات انجام شده</th>
+                            <th className="select-none !border-[1px] !border-black text-center !font-bold py-4">اتوصیه های لازم</th>
+                            <th className="select-none !border-[1px] !border-black text-center !font-bold py-4">تاریخ مراجعه بعدی</th>
                         </tr>
                     </thead>
                     <tbody>
-                    <tr className="!border-[1px] !border-black">
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
+                    <tr className="select-none !border-[1px] !border-black">
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
                         <td></td>
                     </tr> 
-                    <tr className="!border-[1px] !border-black">
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
+                    <tr className="select-none !border-[1px] !border-black">
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
                         <td></td>
                     </tr> 
-                    <tr className="!border-[1px] !border-black">
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
+                    <tr className="select-none !border-[1px] !border-black">
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
                         <td></td>
                     </tr> 
-                    <tr className="!border-[1px] !border-black">
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
+                    <tr className="select-none !border-[1px] !border-black">
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
                         <td></td>
                     </tr> 
-                    <tr className="!border-[1px] !border-black">
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
+                    <tr className="select-none !border-[1px] !border-black">
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
                         <td></td>
                     </tr> 
-                    <tr className="!border-[1px] !border-black">
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
-                        <td className="border-l-[1px] border-black py-12"></td>
+                    <tr className="select-none !border-[1px] !border-black">
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
+                        <td className="select-none border-l-[1px] border-black py-12"></td>
                         <td></td>
                     </tr> 
                     </tbody>

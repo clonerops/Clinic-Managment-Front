@@ -27,8 +27,8 @@ const initialValues: IPatient = {
     job: "",
     education: "",
     reagent: "",
-    gender: 0,
-    maritalStatus: 0,
+    gender: 2,
+    maritalStatus: 2,
     address: "",
     description: "",
 }
@@ -58,7 +58,6 @@ const PatientForm = () => {
     }
 
     const onSubmit = (values: IPatient) => {
-        console.log(values)
         const formData = {
             ...values,
             gender: values.gender === 2 ? true : false,
@@ -102,16 +101,16 @@ const PatientForm = () => {
                     {({ handleSubmit, values, resetForm }) => <form className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-8" onSubmit={handleSubmit}>
                         <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="firstName" label="نام" />
                         <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="lastName" label="نام خانوادگی" />
-                        <FormikInput placeholder="" type="text" hasLabel={true} name="nationalCode" label="کدملی" />
+                        <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="nationalCode" label="کدملی" />
                         <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="mobile" label="موبایل" />
                         <FormikInput placeholder="" type="text" hasLabel={true} name="whatsappNumber" label="شماره واتساپ" />
                         <FormikInput placeholder="" type="text" hasLabel={true} name="homeNumber" label="شماره منزل" />
                         <FormikDatepicker placeholder="" isRequired={true} hasLabel={true} name="birthDate" label="تاریخ تولد" />
-                        <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="job" label="شغل" />
-                        <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="education" label="تحصیلات" />
+                        <FormikInput placeholder="" type="text" hasLabel={true} name="job" label="شغل" />
+                        <FormikInput placeholder="" type="text" hasLabel={true} name="education" label="تحصیلات" />
                         <FormikInput placeholder="" type="text" hasLabel={true} name="reagent" label="معرف" />
-                        <FormikSelect isRequired options={genderOptions} hasLabel={true} name="gender" label="جنسیت" />
-                        <FormikSelect isRequired options={marridStatusOptions} hasLabel={true} name="maritalStatus" label="وضعیت تاهل" />
+                        <FormikSelect options={genderOptions} hasLabel={true} name="gender" label="جنسیت" />
+                        <FormikSelect options={marridStatusOptions} hasLabel={true} name="maritalStatus" label="وضعیت تاهل" />
                         <FormikInput isRequired placeholder="" type="text" hasLabel={true} name="address" label="آدرس" />
                         <div className="lg:col-span-2">
                             <FormikDescription placeholder="" type="text" hasLabel={true} name="description" label="توضیحات" />
