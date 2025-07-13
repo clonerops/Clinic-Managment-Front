@@ -1,6 +1,6 @@
 export enum DocumentEnum {
-    Lazer = 2,
-    Facial = 3,
-    SkinAndHair = 4,
-    Midwifery = 1
+    Lazer = 1,
+    Facial = 4,
+    SkinAndHair = 3,
+    Midwifery = 2
 }

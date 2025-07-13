@@ -84,7 +84,7 @@ const PatientFileList = () => {
                     </Link>
                     <GridSimpleButton btnClassName="bg-violtly hover:!bg-blueLight" icon="report-text-svgrepo-com" title={`ثبت مراجعه بیمار ${item.patientName}`} onClick={() => handleSetPatientFileItemForReferral(item)} />
                     <GridEditButton onClick={() => handleSetPatientFileItem(item)} />
-                    <GridDeleteButton onClick={() => handleSetPatientFileItemForDelete(item)} />
+                    {/* <GridDeleteButton onClick={() => handleSetPatientFileItemForDelete(item)} /> */}
                 </div>
             ),
         },
