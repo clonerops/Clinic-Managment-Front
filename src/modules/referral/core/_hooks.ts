@@ -1,12 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import * as api from './_requests'
-import { IReferral } from "./_models";
+import { IReferral, IReferralFilter } from "./_models";
 
 const useCreateNewReferral = () => useMutation({
     mutationFn: (formData: IReferral) => api.CreateNewReferral(formData),
 })
 const useFetchReferrals = () => useMutation({
-    mutationFn: () => api.FetchReferrals(),
+    mutationFn: (filters: IReferralFilter) => api.FetchReferrals(filters),
 })
 const useFetchReferral = () => useMutation({
     mutationFn: (id: number) => api.FetchReferral(id),

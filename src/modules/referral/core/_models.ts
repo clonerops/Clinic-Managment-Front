@@ -5,3 +5,12 @@ export interface IReferral {
     referralDate?: string | null | undefined,
     patientFileId?: number | null | undefined,
 }
+
+
+export interface IReferralFilter {
+    patientId?: number | string
+    documentId?: number | string
+    doctorId?: number | string
+    fromDate?: string
+    toDate?: string
+}

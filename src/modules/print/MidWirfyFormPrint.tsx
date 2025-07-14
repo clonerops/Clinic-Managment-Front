@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { useFetchPatientFile } from "../patientFile/core/_hooks";
 import { useFetchPatient } from "../patient/core/_hooks";
+import moment from "moment-jalaali";
 
 const MidWirfyFormPrint = () => {
     const { patientId, id }: any = useParams()
@@ -96,7 +97,7 @@ const MidWirfyFormPrint = () => {
             <button className="bg-green-500 text-black px-16 py-2" onClick={() => handlePrint()}>پرینت</button>
             <div ref={printComponentRef} style={{ direction: "rtl" }}>
                 <h2 className="select-none text-center font-bold text-2xl">فرم رضایت انجام خدمات مامایی</h2>
-                <span className="select-none font-bold text-lg">تاریخ : .........</span>
+            <span className="select-none font-bold text-lg">تاریخ : {moment(new Date(Date.now())).format('jYYYY/jMM/jDD')}</span>
 
                 <div className="select-none border-[1px] border-b-0 px-4 py-1 border-black">
                     <div className="select-none grid grid-cols-4">

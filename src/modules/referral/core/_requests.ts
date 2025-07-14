@@ -1,5 +1,6 @@
 import { http } from "../../../_cloner/utils/axiosConfig";
-import { IReferral } from "./_models";
+import { generateURLQueryParam } from "../../../_cloner/utils/queryStringUrl";
+import { IReferral, IReferralFilter } from "./_models";
 
 const CreateNewReferral = async (formData: IReferral) => {
     try {
@@ -13,10 +14,10 @@ const CreateNewReferral = async (formData: IReferral) => {
 }
 
 
-const FetchReferrals = async () => {
+const FetchReferrals = async (filters: IReferralFilter) => {
     try {
         
-        const { data } = await http.get("Referral")
+        const { data } = await http.get(`${generateURLQueryParam("Referral", filters)}`)
         return data
 
     } catch (error: any) {
