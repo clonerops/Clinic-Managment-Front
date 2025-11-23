@@ -23,7 +23,7 @@ const initialValues: IReferral = {
 
 
 interface IProps {
-    fetchPatientFiles: UseMutationResult<any, Error, void, unknown>
+    fetchPatientFiles: UseMutationResult<any, Error, void, unknown> | any
     onClose: () => void
     patientFile: IPatientFile
 }
@@ -47,7 +47,7 @@ const ReferralForm: FC<IProps> = ({ fetchPatientFiles, onClose, patientFile }) =
                 } else {
                     toastify("error", response.message)
                 }
-                fetchPatientFiles.mutate()
+                fetchPatientFiles.mutate({})
                 onClose()
                 formikRef.current?.resetForm()
             }

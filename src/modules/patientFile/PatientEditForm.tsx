@@ -9,6 +9,8 @@ import Backdrop from "../../_cloner/components/shared/Backdrop"
 import CardWidget from "../../_cloner/components/shared/CardWidget"
 import { FC, useEffect } from "react"
 import { UseMutationResult } from "@tanstack/react-query"
+import FormikDoctors from "../../_cloner/components/inputs/FormikDoctors"
+import FormikDocuments from "../../_cloner/components/inputs/FormikDocuments"
 
 const initialValues: IPatientFile = {
     fileCode: "",
@@ -21,7 +23,7 @@ const initialValues: IPatientFile = {
 interface IProps {
     id?: number
     onClose: () => void
-    fetchPatientFiles: UseMutationResult<any, Error, void, unknown>
+    fetchPatientFiles: UseMutationResult<any, Error, void, unknown> | any
 }
 
 const PatientFileEditForm: FC<IProps> = ({ id, onClose, fetchPatientFiles }) => {
@@ -44,7 +46,7 @@ const PatientFileEditForm: FC<IProps> = ({ id, onClose, fetchPatientFiles }) => 
                 } else {
                     toastify("error", response.message)
                 }
-                fetchPatientFiles.mutate()
+                fetchPatientFiles.mutate({})
                 onClose()
             }
         })
@@ -60,7 +62,7 @@ const PatientFileEditForm: FC<IProps> = ({ id, onClose, fetchPatientFiles }) => 
             <CardWidget>
                 <Typography
                     type="h3"
-                    text="ویرایش بیمار"
+                    text={`ویرایش پرونده بیمار ${fetchTools.data?.patientName}`}
                     typographyTextClassName="text-secondary"
                 />
                 <Formik enableReinitialize initialValues={{
@@ -70,6 +72,8 @@ const PatientFileEditForm: FC<IProps> = ({ id, onClose, fetchPatientFiles }) => 
                     maritalStatus: fetchTools.data?.maritalStatus === true ? 2 : 1,
                 }} onSubmit={onSubmit}>
                     {({ handleSubmit }) => <form className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-16" onSubmit={handleSubmit}>
+                        <FormikDoctors placeholder="پزشک" hasLabel={true} name="doctorId" label="پزشک" />
+                        <FormikDocuments placeholder="پرونده" hasLabel={true} name="documentId" label="پرونده" />
                         <div className="lg:col-span-2">
                             <FormikDescription placeholder="توضیحات" type="text" hasLabel={true} name="description" label="توضیحات" />
                         </div>

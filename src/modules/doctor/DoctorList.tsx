@@ -94,7 +94,7 @@ const DoctorList = () => {
         <>
             {fetchTools.isPending && <Backdrop loading={fetchTools.isPending} />}
             <CardWidget>
-                <div className="mb-4">
+                <div className="mb-4">  
                     <Collapse
                         items={[{
                             key: '1', label: 'فیلترها', children:

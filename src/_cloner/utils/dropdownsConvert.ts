@@ -48,3 +48,13 @@ export const dropdownDoctors = (data: any) => {
         })
     );
 };
+
+export const dropdownPatients = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, firstName:string, lastName:string }): any => {
+            const { firstName, lastName, id } = obj;
+            return { value: id, label: `${firstName} ${lastName}` };
+        })
+    );
+};

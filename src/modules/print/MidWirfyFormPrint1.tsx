@@ -36,7 +36,7 @@ const MidWirfyFormPrint1 = () => {
 
     return (
         <>
-            <button className="bg-green-500 text-black px-16 py-2" onClick={handlePrint}>پرینت</button>
+            <button className="bg-green text-black px-16 py-2" onClick={handlePrint}>پرینت</button>
             <div ref={printComponentRef} style={{ direction: "rtl", margin: 30 }}>
                 <h2 className="text-center font-bold text-2xl">ثبت اطلاعات مراجعه کننده</h2>
                 <div className="flex flex-col justify-end items-end mb-4">

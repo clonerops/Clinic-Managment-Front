@@ -9,3 +9,9 @@ export interface IPatientFile {
     doctorName?: string | null | undefined,
     description?: string | null | undefined,
 }
+
+export interface IPatientFileFilter {
+    firstName?: string | null | undefined,
+    lastName?: string | null | undefined,
+    mobile?: string | null | undefined,
+}

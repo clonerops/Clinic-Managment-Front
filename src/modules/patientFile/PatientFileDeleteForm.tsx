@@ -10,7 +10,7 @@ import { UseMutationResult } from "@tanstack/react-query";
 interface IProps {
     item: IPatientFile | undefined;
     onClose: () => void
-    fetchPatientFiles: UseMutationResult<any, Error, void, unknown>
+    fetchPatientFiles: UseMutationResult<any, Error, void, unknown> | any
 }
 
 const PatientFileDeleteForm: FC<IProps> = ({ item, onClose, fetchPatientFiles }) => {
@@ -26,7 +26,7 @@ const PatientFileDeleteForm: FC<IProps> = ({ item, onClose, fetchPatientFiles })
                     toastify("error", response.message);
                 }
                 onClose()
-                fetchPatientFiles.mutate()
+                fetchPatientFiles.mutate({})
             },
         });
     };
